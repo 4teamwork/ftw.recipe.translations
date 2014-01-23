@@ -18,6 +18,14 @@ class Recipe(Egg):
         self._extend_initialization('sources_dir = "%s"' % sources_dir)
         self._add_script_argument('sources_dir')
 
+        # initialize spreadsheet variable
+        spreadsheet = options.get('spreadsheet', None)
+        if spreadsheet:
+            self._extend_initialization('spreadsheet = "%s"' % spreadsheet)
+        else:
+            self._extend_initialization('spreadsheet = None')
+        self._add_script_argument('spreadsheet')
+
         super(Recipe, self).__init__(buildout, name, options)
         self.default_eggs = 'ftw.recipe.translations'
 
@@ -35,5 +43,5 @@ class Recipe(Egg):
 
 
 
-def main(sources_dir):
+def main(sources_dir, spreadsheet):
     print 'WOHOOO'

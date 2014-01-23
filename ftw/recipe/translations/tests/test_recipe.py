@@ -73,5 +73,24 @@ class TestRecipe(TestCase):
             script = file_.read()
 
         self.assertRegexpMatches(script, 'sources_dir = ".*src"')
-        self.assertIn('ftw.recipe.translations.main(sources_dir)',
-                      script)
+
+    def test_spreadshet_configurable(self):
+        url = 'https://docs.google.com/spreadsheet/ccc?key=adsf123adsf'
+        self.write('buildout.cfg', '\n'.join((
+                    DEFAULT_BUILDOUT_CONFIG,
+                    'spreadsheet = %s' % url)))
+        self.system(self.buildout)
+        path = os.path.join(self.sample_buildout, 'bin', 'translations')
+        with open(path) as file_:
+            script = file_.read()
+
+        self.assertIn('spreadsheet = "%s"' % url, script)
+
+    def test_spreadsheet_is_None_by_default(self):
+        self.write('buildout.cfg', DEFAULT_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        path = os.path.join(self.sample_buildout, 'bin', 'translations')
+        with open(path) as file_:
+            script = file_.read()
+
+        self.assertIn('spreadsheet = None', script)
