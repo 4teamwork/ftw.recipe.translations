@@ -46,7 +46,9 @@ setup(name='ftw.recipe.translations',
       extras_require=dict(tests=tests_require),
 
       entry_points = {
-        'zc.buildout': ['default = ftw.recipe.translations:Recipe'],
-        'console_scripts': ['translations = ftw.recipe.translations:main']
+        'zc.buildout': [
+            'default = ftw.recipe.translations.recipe:Recipe'],
+        'console_scripts': [
+            'translations = ftw.recipe.translations.command:main']
         },
       )
