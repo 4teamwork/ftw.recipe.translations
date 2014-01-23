@@ -64,3 +64,14 @@ class TestRecipe(TestCase):
         self.assertTrue(
             os.path.exists(i18n),
             'The script %s should be generated' % i18n)
+
+    def test_source_path_is_passed_as_argument(self):
+        self.write('buildout.cfg', DEFAULT_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        path = os.path.join(self.sample_buildout, 'bin', 'translations')
+        with open(path) as file_:
+            script = file_.read()
+
+        self.assertRegexpMatches(script, 'sources_dir = ".*src"')
+        self.assertIn('ftw.recipe.translations.main(sources_dir)',
+                      script)
