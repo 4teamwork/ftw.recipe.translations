@@ -4,7 +4,7 @@ class Catalog(object):
     def __init__(self):
         self.catalog = {}
 
-    def get_message(self, package, domain, msgid, default):
+    def get_message(self, package, domain, msgid, default=None):
         """Returns a message object, creates it when necessary.
         """
 

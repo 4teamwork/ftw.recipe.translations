@@ -11,6 +11,12 @@ def create_structure(basedir, structure):
             file_.write(data)
 
 
+def cat(basedir, relpath):
+    path = os.path.join(basedir, relpath)
+    with open(path) as file_:
+        return file_.read()
+
+
 def asset(name):
     """Returns the content of a testing asset.
     """
