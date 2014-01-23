@@ -1,0 +1,4 @@
+
+
+class Recipe(object):
+    pass

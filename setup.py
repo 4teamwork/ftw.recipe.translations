@@ -7,12 +7,14 @@ version = '1.0.0.dev0'
 
 tests_require = [
     'unittest2',
+    'plone.testing',
     ]
 
 
 setup(name='ftw.recipe.translations',
       version=version,
-      description='Mass export / import of translations into Google Docs Spreadsheets',
+      description='Mass export / import of translations into' + \
+          ' Google Docs Spreadsheets',
 
       long_description=open('README.rst').read() + '\n' + \
           open(os.path.join('docs', 'HISTORY.txt')).read(),
@@ -30,20 +32,18 @@ setup(name='ftw.recipe.translations',
 
       license='GPL2',
       packages=find_packages(exclude=['ez_setup']),
-      namespace_packages=['ftw', ],
+      namespace_packages=['ftw', 'ftw.recipe'],
       include_package_data=True,
       zip_safe=False,
 
       install_requires=[
         'setuptools',
+        'zc.buildout',
         ],
 
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
 
-      entry_points="""
-      # -*- Entry points: -*-
-      [z3c.autoinclude.plugin]
-      target = plone
-      """,
+      entry_points = {
+        'zc.buildout': ['default = ftw.recipe.translations:Recipe']},
       )
