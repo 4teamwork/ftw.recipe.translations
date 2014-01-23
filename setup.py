@@ -39,11 +39,14 @@ setup(name='ftw.recipe.translations',
       install_requires=[
         'setuptools',
         'zc.buildout',
+        'zc.recipe.egg',
         ],
 
       tests_require=tests_require,
       extras_require=dict(tests=tests_require),
 
       entry_points = {
-        'zc.buildout': ['default = ftw.recipe.translations:Recipe']},
+        'zc.buildout': ['default = ftw.recipe.translations:Recipe'],
+        'console_scripts': ['translations = ftw.recipe.translations:main']
+        },
       )
