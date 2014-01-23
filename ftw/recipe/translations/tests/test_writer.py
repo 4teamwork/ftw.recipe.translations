@@ -10,26 +10,29 @@ import os.path
 class TestPofileRegistry(TestCase):
     layer = TEMP_DIRECTORY_FIXTURE
 
+    def setUp(self):
+        self.tempdir = self.layer[u'tempdir']
+
     def test_finds_pofile_paths(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
                     'foo-de.po')})
-        catalog = loader.load_translation_catalog(self.layer[u'tempdir'])
+        catalog = loader.load_translation_catalog(self.tempdir)
         message, = catalog.messages
-        registry = writer.PofileRegistry(self.layer['tempdir'])
+        registry = writer.PofileRegistry(self.tempdir)
 
-        expected = os.path.join(self.layer['tempdir'],
+        expected = os.path.join(self.tempdir,
                                 'pyfoo/foo/locales/de/LC_MESSAGES/foo.po')
         self.assertEquals(expected,
                           registry.find_pofile_path_for(message, 'de'))
 
     def test_caches_pofiles(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
                     'foo-de.po')})
-        catalog = loader.load_translation_catalog(self.layer[u'tempdir'])
+        catalog = loader.load_translation_catalog(self.tempdir)
         message, = catalog.messages
-        registry = writer.PofileRegistry(self.layer['tempdir'])
+        registry = writer.PofileRegistry(self.tempdir)
 
         self.assertIs(registry.find_pofile_for(message, 'de'),
                       registry.find_pofile_for(message, 'de'),
@@ -39,19 +42,22 @@ class TestPofileRegistry(TestCase):
 class TestWriter(TestCase):
     layer = TEMP_DIRECTORY_FIXTURE
 
+    def setUp(self):
+        self.tempdir = self.layer[u'tempdir']
+
     def test_updating_existing_messages(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 'pyfoo/foo/locales/foo.pot': fshelpers.asset('foo.pot'),
                 'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
                     'foo-de.po')})
 
-        catalog = loader.load_translation_catalog(self.layer[u'tempdir'])
+        catalog = loader.load_translation_catalog(self.tempdir)
         message = catalog.get_message('pyfoo', 'foo', 'Login')
         message.translate('de', 'Einloggen')
 
-        writer.write_catalog(self.layer['tempdir'], catalog)
+        writer.write_catalog(self.tempdir, catalog)
 
-        pofile = fshelpers.cat(self.layer['tempdir'],
+        pofile = fshelpers.cat(self.tempdir,
                                'pyfoo/foo/locales/de/LC_MESSAGES/foo.po')
 
         self.assertIn(

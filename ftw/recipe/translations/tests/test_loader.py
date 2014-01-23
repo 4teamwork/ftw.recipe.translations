@@ -7,8 +7,11 @@ from unittest2 import TestCase
 class TestLoader(TestCase):
     layer = TEMP_DIRECTORY_FIXTURE
 
+    def setUp(self):
+        self.tempdir = self.layer[u'tempdir']
+
     def test_loading_package_translations(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 'pyfoo/foo/locales/foo.pot': fshelpers.asset('foo.pot'),
                 'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
                     'foo-de.po')})

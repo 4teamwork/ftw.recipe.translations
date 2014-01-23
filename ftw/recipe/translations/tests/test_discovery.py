@@ -9,9 +9,11 @@ class TestDiscovery(TestCase):
 
     def setUp(self):
         self.maxDiff = None
+        self.tempdir = self.layer[u'tempdir']
+
 
     def test_discovers_translations_in_locales_directories(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 u'foo.bar/foo/bar/locales/en/LC_MESSAGES/foo.bar.po': u'',
                 u'foo.bar/foo/bar/locales/de/LC_MESSAGES/foo.bar.po': u'',
                 u'foo.bar/foo/bar/locales/foo.bar.pot': u''})
@@ -27,10 +29,10 @@ class TestDiscovery(TestCase):
                         u'en': u'foo/bar/locales/en/LC_MESSAGES/foo.bar.po'}}
              ],
 
-            discovery.discover(self.layer[u'tempdir']))
+            discovery.discover(self.tempdir))
 
     def test_discovers_multiple_domains_in_same_package(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 u'foo/foo/locales/en/LC_MESSAGES/foo.po': u'',
                 u'foo/foo/locales/de/LC_MESSAGES/foo.po': u'',
                 u'foo/foo/locales/de/LC_MESSAGES/bar.po': u'',
@@ -54,10 +56,10 @@ class TestDiscovery(TestCase):
                         u'de': u'foo/locales/de/LC_MESSAGES/foo.po',
                         u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
 
-            discovery.discover(self.layer[u'tempdir']))
+            discovery.discover(self.tempdir))
 
     def test_translations_without_pot_file(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 u'foo/foo/locales/en/LC_MESSAGES/foo.po': u'',
                 })
 
@@ -69,14 +71,14 @@ class TestDiscovery(TestCase):
               u'languages': {
                         u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
 
-            discovery.discover(self.layer[u'tempdir']))
+            discovery.discover(self.tempdir))
 
     def test_i18n_directory_is_not_supported(self):
-        fshelpers.create_structure(self.layer[u'tempdir'], {
+        fshelpers.create_structure(self.tempdir, {
                 u'foo/foo/i18n/foo-de.po': u'',
                 })
 
         self.assertItemsEqual(
             [],
 
-            discovery.discover(self.layer[u'tempdir']))
+            discovery.discover(self.tempdir))
