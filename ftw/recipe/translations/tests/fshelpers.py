@@ -1,25 +1,31 @@
+from path import path
 import os
 
 
 def create_structure(basedir, structure):
-    for path, data in structure.items():
-        path = os.path.join(basedir, path)
-        dirname = os.path.dirname(path)
+    for filepath, data in structure.items():
+        filepath = os.path.join(basedir, filepath)
+        dirname = os.path.dirname(filepath)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
-        with open(path, 'w+') as file_:
+        with open(filepath, 'w+') as file_:
             file_.write(data)
 
 
 def cat(basedir, relpath):
-    path = os.path.join(basedir, relpath)
-    with open(path) as file_:
+    filepath = os.path.join(basedir, relpath)
+    with open(filepath) as file_:
         return file_.read()
 
 
 def asset(name):
     """Returns the content of a testing asset.
     """
-    path = os.path.join(os.path.dirname(__file__), 'assets', name)
-    with open(path) as file_:
+    filepath = os.path.join(os.path.dirname(__file__), 'assets', name)
+    with open(filepath) as file_:
         return file_.read()
+
+
+def files(directory):
+    for filepath in path(directory).walkfiles():
+        yield str(filepath.relpath(directory))

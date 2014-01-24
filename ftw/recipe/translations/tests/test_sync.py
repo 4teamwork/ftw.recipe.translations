@@ -33,6 +33,23 @@ class TestSyncCommand(TestCase):
         synchronize(self.tempdir)
         self.assertEquals({}, pohelpers.messages(*potfile))
 
+    def test_merges_manual_pot_files(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot'),
+                'foo/foo/locales/foo-manual.pot': fshelpers.asset(
+                    'foo.pot'),
+                'foo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
+                    'empty.po'),
+                })
+
+        synchronize(self.tempdir, output=None)
+        pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
+        self.assertEquals({'Foo': '',
+                           'Login': ''}, pohelpers.messages(*pofile))
+
+
+
     def test_syncs_po_files_of_existing_languages(self):
         fshelpers.create_structure(self.tempdir, {
                 'foo/foo/__init__.py': '_("Foo")',
@@ -89,3 +106,22 @@ class TestSyncCommand(TestCase):
                         ' create missing languages.')
 
         self.assertEquals({'Login': ''}, pohelpers.messages(enpath))
+
+    def test_does_not_sync_manual_pot_files(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot'),
+                'foo/foo/locales/foo-manual.pot': fshelpers.asset(
+                    'empty.pot'),
+                'foo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
+                    'foo-de.po'),
+                })
+
+        synchronize(self.tempdir, languages=['de'], output=None)
+
+        self.assertItemsEqual(
+            ['foo/foo/__init__.py',
+             'foo/foo/locales/foo.pot',
+             'foo/foo/locales/foo-manual.pot',
+             'foo/foo/locales/de/LC_MESSAGES/foo.po'],
+            fshelpers.files(self.tempdir))

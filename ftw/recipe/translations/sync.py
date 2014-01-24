@@ -55,15 +55,19 @@ def rebuild_primary_domain_group_potfiles(sources_directory):
             package_dir)
         potpath = os.path.join(package_dir, group['pot'])
 
-        rebuild_pot(package_dir, sourcedir, group['domain'], potpath)
+        manual = ''
+        if group['manual']:
+            manual = os.path.join(package_dir, group['manual'])
+
+        rebuild_pot(package_dir, sourcedir, group['domain'], potpath, manual)
 
 
-def rebuild_pot(package_dir, sourcedir, domain, potpath):
+def rebuild_pot(package_dir, sourcedir, domain, potpath, manual):
     arguments = Arguments({'pot_fn': potpath,
                            'create_domain': domain,
                            'path': [sourcedir],
                            'exclude': '',
-                           'merge_fn': '',
+                           'merge_fn': manual,
                            'merge2_fn': ''})
 
     with chdir(package_dir):

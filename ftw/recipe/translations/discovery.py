@@ -1,5 +1,6 @@
 from collections import defaultdict
 from path import path
+import os.path
 import re
 
 
@@ -8,6 +9,7 @@ def discover(sources_directory):
                      u'domain': None,
                      u'locales': None,
                      u'pot': None,
+                     u'manual': None,
                      u'languages': {}}
     items = defaultdict(Group)
 
@@ -28,6 +30,7 @@ def discover(sources_directory):
     for match in _find_pot_files(sources_directory):
         group = items[match[u'package'], match[u'domain']]
         group[u'pot'] = unicode(match[u'relative_path'])
+        group[u'manual'] = match[u'manual']
 
         if group['locales'] is None:
             group['locales'] = match['locales']
@@ -65,11 +68,22 @@ def _find_pot_files(sources_directory):
     for filepath in path(sources_directory).walkfiles(u'*.pot'):
         if not re.match('.*locales/.*\.pot$', filepath):
             continue
+        if re.match('/.*-manual\.pot$', filepath):
+            continue
         src_rel_path = filepath.relpath(sources_directory)
         pkg_rel_path = '/'.join(src_rel_path.split('/')[1:])
         locales_path = '/'.join(pkg_rel_path.split('/')[:-1])
+
+        manual = None
+        manual_path = re.sub('\.pot$', '-manual.pot', filepath)
+        if os.path.exists(manual_path):
+            manual = unicode(path(manual_path)
+                             .relpath(sources_directory)
+                             .relpath(os.path.dirname(locales_path)))
+
         yield {u'package': src_rel_path.split(u'/')[0],
                u'domain': unicode(src_rel_path.basename().splitext()[0]),
                u'locales': locales_path,
                u'relative_path': pkg_rel_path,
-               u'absolute_path': filepath}
+               u'absolute_path': filepath,
+               u'manual': manual}

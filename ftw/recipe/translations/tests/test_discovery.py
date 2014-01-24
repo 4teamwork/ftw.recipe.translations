@@ -24,6 +24,7 @@ class TestDiscovery(TestCase):
               u'package': u'foo.bar',
               u'locales': u'foo/bar/locales',
               u'pot': u'foo/bar/locales/foo.bar.pot',
+              u'manual': None,
               u'languages': {
                         u'de': u'foo/bar/locales/de/LC_MESSAGES/foo.bar.po',
                         u'en': u'foo/bar/locales/en/LC_MESSAGES/foo.bar.po'}}
@@ -45,6 +46,7 @@ class TestDiscovery(TestCase):
               u'package': u'foo',
               u'locales': u'foo/locales',
               u'pot': u'foo/locales/bar.pot',
+              u'manual': None,
               u'languages': {
                         u'de': u'foo/locales/de/LC_MESSAGES/bar.po'}},
 
@@ -52,6 +54,7 @@ class TestDiscovery(TestCase):
               u'package': u'foo',
               u'locales': u'foo/locales',
               u'pot': u'foo/locales/foo.pot',
+              u'manual': None,
               u'languages': {
                         u'de': u'foo/locales/de/LC_MESSAGES/foo.po',
                         u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
@@ -68,6 +71,25 @@ class TestDiscovery(TestCase):
               u'package': u'foo',
               u'locales': u'foo/locales',
               u'pot': None,
+              u'manual': None,
+              u'languages': {
+                        u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
+
+            discovery.discover(self.tempdir))
+
+    def test_lists_manual_pot_files_in_respective_group(self):
+        fshelpers.create_structure(self.tempdir, {
+                u'foo/foo/locales/en/LC_MESSAGES/foo.po': u'',
+                u'foo/foo/locales/foo.pot': u'',
+                u'foo/foo/locales/foo-manual.pot': u'',
+                })
+
+        self.assertItemsEqual(
+            [{u'domain': u'foo',
+              u'package': u'foo',
+              u'locales': u'foo/locales',
+              u'pot': u'foo/locales/foo.pot',
+              u'manual': u'foo/locales/foo-manual.pot',
               u'languages': {
                         u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
 
