@@ -37,6 +37,7 @@ setup(name='ftw.recipe.translations',
       zip_safe=False,
 
       install_requires=[
+        'argparse',
         'i18ndude',
         'path.py',
         'setuptools',
