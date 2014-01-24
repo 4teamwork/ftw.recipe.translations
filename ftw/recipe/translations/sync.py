@@ -1,6 +1,7 @@
 from StringIO import StringIO
 from ftw.recipe.translations import discovery
 from ftw.recipe.translations.utils import capture_streams
+from ftw.recipe.translations.utils import chdir
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter
 import i18ndude.script
@@ -48,22 +49,25 @@ def rebuild_primary_domain_group_potfiles(sources_directory):
 
         locales = os.path.join(sources_directory, group['package'],
                                group['locales'])
-        sourcedir = os.path.abspath(os.path.join(locales, '..'))
-        potpath = os.path.join(sources_directory,
-                               group['package'],
-                               group['pot'])
+        package_dir = os.path.join(sources_directory, group['package'])
+        sourcedir = './' + os.path.relpath(
+            os.path.abspath(os.path.join(locales, '..')),
+            package_dir)
+        potpath = os.path.join(package_dir, group['pot'])
 
-        rebuild_pot(sourcedir, group['domain'], potpath)
+        rebuild_pot(package_dir, sourcedir, group['domain'], potpath)
 
 
-def rebuild_pot(sourcedir, domain, potpath):
+def rebuild_pot(package_dir, sourcedir, domain, potpath):
     arguments = Arguments({'pot_fn': potpath,
                            'create_domain': domain,
                            'path': [sourcedir],
                            'exclude': '',
                            'merge_fn': '',
                            'merge2_fn': ''})
-    i18ndude.script.rebuild_pot(arguments)
+
+    with chdir(package_dir):
+        i18ndude.script.rebuild_pot(arguments)
 
 
 def sync_pofiles(sources_directory, languages):

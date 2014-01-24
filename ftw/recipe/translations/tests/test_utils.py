@@ -1,7 +1,9 @@
 from StringIO import StringIO
 from ftw.recipe.translations import utils
 from unittest2 import TestCase
+import os
 import sys
+import tempfile
 
 
 class TestCaptureStreams(TestCase):
