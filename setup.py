@@ -38,7 +38,10 @@ setup(name='ftw.recipe.translations',
 
       install_requires=[
         'argparse',
+        'gspread',
         'i18ndude',
+        'keyring',
+        'oauth2client',
         'path.py',
         'setuptools',
         'zc.buildout',
