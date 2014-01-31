@@ -49,22 +49,6 @@ class TestRecipe(TestCase):
         self.assertTrue(os.access(path, os.X_OK),
                         '%s should be executable' % path)
 
-    def test_part_name_is_executable_name(self):
-        self.write('buildout.cfg', I18N_BUILDOUT_CONFIG)
-        self.system(self.buildout)
-
-        translations = os.path.join(self.sample_buildout, 'bin',
-                                    'translations')
-        self.assertFalse(
-            os.path.exists(translations),
-            'The script should not be generated at %s' % (
-                translations))
-
-        i18n = os.path.join(self.sample_buildout, 'bin', 'i18n')
-        self.assertTrue(
-            os.path.exists(i18n),
-            'The script %s should be generated' % i18n)
-
     def test_source_path_is_passed_as_argument(self):
         self.write('buildout.cfg', DEFAULT_BUILDOUT_CONFIG)
         self.system(self.buildout)

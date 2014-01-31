@@ -7,9 +7,6 @@ class Recipe(Egg):
     def __init__(self, buildout, name, options):
         self.options = options
 
-        # rename script to part name
-        options['scripts'] = 'translations=%s' % name
-
         # initialize sources_dir variable, based on mr.developer config
         sources_dir = buildout['buildout'].get('sources-dir')
         if not sources_dir:
