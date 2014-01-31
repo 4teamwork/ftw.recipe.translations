@@ -9,7 +9,7 @@ def version():
     return get_distribution('ftw.recipe.translations').version
 
 
-def main(sources_dir, spreadsheet_url):
+def main(spreadsheet_url, sources_dir):
     parser = argparse.ArgumentParser(sys.argv[0])
     parser.add_argument('--version', action='version',
                         version='%%(prog)s %s' % version())
