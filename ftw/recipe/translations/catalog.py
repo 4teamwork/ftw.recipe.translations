@@ -1,5 +1,3 @@
-from operator import methodcaller
-
 
 class Catalog(object):
 
