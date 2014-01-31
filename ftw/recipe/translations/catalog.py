@@ -27,6 +27,9 @@ class Catalog(object):
     def messages(self):
         return self.catalog.values()
 
+    def get_message_dicts(self, languages=None):
+        return [msg.to_dict(languages) for msg in self.messages]
+
 
 class Message(object):
 
@@ -39,3 +42,18 @@ class Message(object):
 
     def translate(self, language, msgstr):
         self.translations[language] = msgstr
+
+    def to_dict(self, languages=None):
+        data = {'package': self.package,
+                'domain': self.domain,
+                'id': self.msgid,
+                'default': self.default,
+                'translations': {}}
+
+        if languages:
+            for lang in languages:
+                data['translations'][lang] = self.translations.get(lang, '')
+        else:
+            data['translations'] = self.translations.copy()
+
+        return data

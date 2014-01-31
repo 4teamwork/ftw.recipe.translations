@@ -19,7 +19,7 @@ def setup_argparser(subparsers):
             ' If defined, only the defined languages are synchronized' + \
             ' and will be created if missing.')
 
-def synchronize_command(args):
+def synchronize_command(args, spreadsheet_url):
     return synchronize(args.sources_dir, args.languages)
 
 

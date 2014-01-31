@@ -15,6 +15,22 @@ def write_catalog(sources_directory, catalog):
     registry.write_pofiles()
 
 
+def cleanup_pofile(path):
+    with open(path, 'r') as file_:
+        lines = file_.read().split('\n')
+
+    with open(path, 'w') as file_:
+        for line in lines:
+            if line.startswith('"Language-Code:') or \
+                    line.startswith('"Language-Name:'):
+                continue
+
+            if line.startswith('"Domain:'):
+                continue
+
+            file_.write(line + '\n')
+
+
 class PofileRegistry(object):
 
     def __init__(self, sources_directory):
@@ -42,6 +58,7 @@ class PofileRegistry(object):
             with open(catalog.filename, 'w+') as file_:
                 POWriter(file_, catalog).write(msgstrToComment=False,
                                                sync=True)
+            cleanup_pofile(catalog.filename)
 
     def _discover_domains(self):
         result = {}

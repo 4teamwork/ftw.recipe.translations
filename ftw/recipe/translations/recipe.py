@@ -37,6 +37,6 @@ class Recipe(Egg):
     def _add_script_argument(self, argument):
         arguments = self.options.get('arguments')
         if arguments:
-            self.options['arguments'] = 'sources_dir, %s' % arguments
+            self.options['arguments'] = '%s, %s' % (argument, arguments)
         else:
-            self.options['arguments'] = 'sources_dir'
+            self.options['arguments'] = argument

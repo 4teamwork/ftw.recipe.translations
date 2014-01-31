@@ -70,20 +70,18 @@ def _find_pot_files(sources_directory):
             continue
         if re.match('/.*-manual\.pot$', filepath):
             continue
-        src_rel_path = filepath.relpath(sources_directory)
-        pkg_rel_path = '/'.join(src_rel_path.split('/')[1:])
-        locales_path = '/'.join(pkg_rel_path.split('/')[:-1])
+
+        package_name = filepath.relpath(sources_directory).split('/')[0]
+        package_path = os.path.join(sources_directory, package_name)
 
         manual = None
         manual_path = re.sub('\.pot$', '-manual.pot', filepath)
         if os.path.exists(manual_path):
-            manual = unicode(path(manual_path)
-                             .relpath(sources_directory)
-                             .relpath(os.path.dirname(locales_path)))
+            manual = unicode(path(manual_path).relpath(package_path))
 
-        yield {u'package': src_rel_path.split(u'/')[0],
-               u'domain': unicode(src_rel_path.basename().splitext()[0]),
-               u'locales': locales_path,
-               u'relative_path': pkg_rel_path,
+        yield {u'package': package_name,
+               u'domain': unicode(filepath.basename().splitext()[0]),
+               u'locales': os.path.dirname(path(filepath).relpath(package_path)),
+               u'relative_path': path(filepath).relpath(package_path),
                u'absolute_path': filepath,
                u'manual': manual}

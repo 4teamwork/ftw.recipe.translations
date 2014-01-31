@@ -64,3 +64,45 @@ class TestWriter(TestCase):
             '\n'.join(('msgid "Login"',
                        'msgstr "Einloggen"')),
             pofile)
+
+    def test_removes_language_code_and_name(self):
+        # In Plone, the language is defined through the location of the
+        # pofile, e.g. it is obvious that locales/de/LC_MESSAGES/foo.po is
+        # a German translation.
+        # We therefore do not include the language-code and language-name
+        # headers in the po file and remove them when i18ndude adds them,
+        # so that they are no longer wrong..
+
+        fshelpers.create_structure(self.tempdir, {
+                'pyfoo/foo/locales/foo.pot': fshelpers.asset('foo.pot'),
+                'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
+                    'foo-de.po')})
+
+        catalog = loader.load_translation_catalog(self.tempdir)
+        writer.write_catalog(self.tempdir, catalog)
+        pofile = fshelpers.cat(self.tempdir,
+                               'pyfoo/foo/locales/de/LC_MESSAGES/foo.po')
+
+        lines = pofile.split('\n')
+        self.assertEquals(['"Language-Team: LANGUAGE <LL@li.org>\\n"'],
+                          filter(lambda line: line.startswith('"Lang'),
+                                 lines))
+
+    def test_removes_domain(self):
+        # In Plone, the domain is defined through the basename of the
+        # pofile. The "Domain:" header is not necessary, so we remove it.
+
+        fshelpers.create_structure(self.tempdir, {
+                'pyfoo/foo/locales/foo.pot': fshelpers.asset('foo.pot'),
+                'pyfoo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
+                    'foo-de.po')})
+
+        catalog = loader.load_translation_catalog(self.tempdir)
+        writer.write_catalog(self.tempdir, catalog)
+        pofile = fshelpers.cat(self.tempdir,
+                               'pyfoo/foo/locales/de/LC_MESSAGES/foo.po')
+
+        lines = pofile.split('\n')
+        self.assertEquals([],
+                          filter(lambda line: line.startswith('"Domain'),
+                                 lines))

@@ -79,19 +79,28 @@ class TestDiscovery(TestCase):
 
     def test_lists_manual_pot_files_in_respective_group(self):
         fshelpers.create_structure(self.tempdir, {
-                u'foo/foo/locales/en/LC_MESSAGES/foo.po': u'',
-                u'foo/foo/locales/foo.pot': u'',
-                u'foo/foo/locales/foo-manual.pot': u'',
+                u'foo/bar/locales/en/LC_MESSAGES/foo.po': u'',
+                u'foo/bar/locales/foo.pot': u'',
+                u'foo/bar/locales/bar.pot': u'',
+                u'foo/bar/locales/foo-manual.pot': u'',
                 })
 
         self.assertItemsEqual(
             [{u'domain': u'foo',
               u'package': u'foo',
-              u'locales': u'foo/locales',
-              u'pot': u'foo/locales/foo.pot',
-              u'manual': u'foo/locales/foo-manual.pot',
+              u'locales': u'bar/locales',
+              u'pot': u'bar/locales/foo.pot',
+              u'manual': u'bar/locales/foo-manual.pot',
               u'languages': {
-                        u'en': u'foo/locales/en/LC_MESSAGES/foo.po'}}],
+                        u'en': u'bar/locales/en/LC_MESSAGES/foo.po'}},
+
+             {u'domain': u'bar',
+              u'package': u'foo',
+              u'locales': u'bar/locales',
+              u'pot': u'bar/locales/bar.pot',
+              u'manual': None,
+              u'languages': {},
+              }],
 
             discovery.discover(self.tempdir))
 

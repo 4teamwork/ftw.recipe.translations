@@ -6,8 +6,9 @@ version = '1.0.0.dev0'
 
 
 tests_require = [
-    'unittest2',
+    'mocker',
     'plone.testing',
+    'unittest2',
     ]
 
 
@@ -38,7 +39,10 @@ setup(name='ftw.recipe.translations',
 
       install_requires=[
         'argparse',
+        'gspread',
         'i18ndude',
+        'keyring',
+        'oauth2client',
         'path.py',
         'setuptools',
         'zc.buildout',

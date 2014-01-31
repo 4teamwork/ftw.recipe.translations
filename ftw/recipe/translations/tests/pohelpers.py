@@ -1,3 +1,5 @@
+from StringIO import StringIO
+from ftw.recipe.translations.tests import fshelpers
 from i18ndude.catalog import MessageCatalog
 import os.path
 
@@ -13,3 +15,22 @@ def messages(*pathparts):
     for msg in catalog.values():
         messages[msg.msgid] = msg.msgstr
     return messages
+
+
+def makepo(messages):
+    data = StringIO()
+    data.write(fshelpers.asset('empty.po'))
+
+    for msgid, value in sorted(messages.items()):
+        if isinstance(value, tuple):
+            default, msgstr = value
+        else:
+            default, msgstr = None, value
+
+        data.write('\n\n')
+        if default:
+            data.write('#. Default: "%s"\n' % default)
+        data.write('msgid "%s"\n' % msgid)
+        data.write('msgstr "%s"\n' % msgstr)
+
+    return data.getvalue().strip()
