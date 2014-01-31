@@ -102,8 +102,8 @@ Example:
     1 of 191 (0%): Upload
     9 of 191 (4%): Upload
     ...
-    191 of 191 (100%): Upload
-
+    Finished Upload
+    Uploaded into worksheet "013: 2014-01-31"
 
 The `download` command
 ----------------------
