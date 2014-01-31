@@ -6,6 +6,7 @@ class Recipe(Egg):
 
     def __init__(self, buildout, name, options):
         self.options = options
+        name = 'ftw.recipe.translations'
 
         # initialize sources_dir variable, based on mr.developer config
         sources_dir = buildout['buildout'].get('sources-dir')
