@@ -8,7 +8,7 @@ except ImportError, exc:
     print 'Run this script with ./bin/py test-google-auth.py'
     sys.exit(0)
 
-TEST_DOC = 'https://docs.google.com/spreadsheet/ccc?key=0AgoYEZSDYCg1dDUxbi1JU2QzakJQTExFZDFlNXdQc3c&usp=drive_web#gid=2'
+TEST_DOC = 'https://docs.google.com/spreadsheet/ccc?key=0AgoYEZSDYCg1dEZvVGFTRUc3RDd6aFJsanA0VEx3Smc#gid=0'
 
 spreadsheet = google.Spreadsheet()
 spreadsheet.connect()
