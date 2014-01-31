@@ -41,18 +41,17 @@ class Spreadsheet(object):
 
         self._update_row(worksheet, 1, headers)
 
-        with ProgressLogger('Upload', tuple(enumerate(data))) as items:
-            for row, item in items:
-                values = []
-                for header in headers:
-                    text = item.get(header, item['translations'].get(header))
-                    if isinstance(text, str):
-                        text = text.decode('utf-8')
-                    if text is None:
-                        text = u''
-                    values.append(text)
+        for row, item in ProgressLogger('Upload', tuple(enumerate(data))):
+            values = []
+            for header in headers:
+                text = item.get(header, item['translations'].get(header))
+                if isinstance(text, str):
+                    text = text.decode('utf-8')
+                if text is None:
+                    text = u''
+                values.append(text)
 
-                self._update_row(worksheet, row + 2, values)
+            self._update_row(worksheet, row + 2, values)
 
         return worksheet.title
 

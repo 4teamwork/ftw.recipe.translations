@@ -20,12 +20,12 @@ class ProgressLogger(object):
         self._counter = 0
 
     def __enter__(self):
-        print 'STARTING %s' % self.message
+        print 'Starting %s' % self.message
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         if not exc_type:
-            print 'DONE %s' % self.message
+            print 'Finished %s' % self.message
 
         else:
             print 'FAILED %s (%s: %s)' % (
