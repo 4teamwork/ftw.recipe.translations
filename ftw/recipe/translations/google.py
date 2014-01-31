@@ -1,4 +1,5 @@
 from datetime import datetime
+from ftw.recipe.translations.progresslogger import ProgressLogger
 from gspread import Client
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.keyring_storage import Storage
@@ -30,7 +31,7 @@ class Spreadsheet(object):
     def open(self, url):
         self.document = self.client.open_by_url(url)
 
-    def upload(self, data):
+    def upload(self, data, print_status=True):
         translation_headers = tuple(set(itertools.chain(*[
                         item.get('translations').keys() for item in data])))
         headers = HEADERS + translation_headers
@@ -38,17 +39,38 @@ class Spreadsheet(object):
         rows = len(data) + 1
         worksheet = self._create_worksheet(rows=rows, cols=cols)
 
-        for col, label in enumerate(headers):
-            worksheet.update_cell(1, col + 1, label)
+        self._update_row(worksheet, 1, headers)
 
-        for row, item in enumerate(data):
-            for col, header in enumerate(headers):
-                text = item.get(header, item['translations'].get(header))
-                if isinstance(text, str):
-                    text = text.decode('utf-8')
-                worksheet.update_cell(row + 2, col + 1, text)
+        with ProgressLogger('Upload', tuple(enumerate(data))) as items:
+            for row, item in items:
+                values = []
+                for header in headers:
+                    text = item.get(header, item['translations'].get(header))
+                    if isinstance(text, str):
+                        text = text.decode('utf-8')
+                    if text is None:
+                        text = u''
+                    values.append(text)
+
+                self._update_row(worksheet, row + 2, values)
 
         return worksheet.title
+
+    def _update_row(self, worksheet, row_num, values):
+        range = 'A%s:%s%s' % (
+            row_num,
+            chr(64 + len(values)),
+            row_num)
+        cells = worksheet.range(range)
+
+        for col, text in enumerate(values):
+            if isinstance(text, str):
+                text = text.decode('utf-8')
+            if text is None:
+                text = u''
+            cells[col].value = text
+
+        worksheet.update_cells(cells)
 
     def download(self, worksheet_title):
         worksheet = self.document.worksheet(worksheet_title)
@@ -78,17 +100,14 @@ class Spreadsheet(object):
         storage = Storage('ftw.recipe.translations', os.getlogin())
         credentials = storage.get()
 
-        if credentials and not credentials.invalid:
+        if credentials:
+            credentials.refresh(httplib2.Http())
             return credentials
 
-        if credentials and credentials.invalid:
-            credentials.refresh(httplib2.Http())
-            return storage.get()
-
-        return self.authorize(storage)
+        return self._authorize(storage)
 
     def _authorize(self, storage):
-        client_secret_path = self.get_client_secret_json_path()
+        client_secret_path = self._get_client_secret_json_path()
         flow = flow_from_clientsecrets(client_secret_path,
                                        scope=SCOPE,
                                        redirect_uri=REDIRECT_URI)
