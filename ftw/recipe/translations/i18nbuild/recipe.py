@@ -10,7 +10,8 @@ class Recipe(Egg):
         # Only install "bin/i18n-build" script, not other scripts.
         options['scripts'] = 'i18n-build'
 
-        kwargs = {'package_name': options.get('package-name'),
+        kwargs = {'buildout_directory': buildout['buildout']['directory'],
+                  'package_name': options.get('package-name'),
                   'i18n_domain': options.get('i18n-domain'),
                   'package_namespace': options.get('package-namespace'),
                   'package_directory': options.get('package-directory')}

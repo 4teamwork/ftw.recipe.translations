@@ -66,6 +66,14 @@ class TestRecipe(TestCase):
         self.assertFalse(os.path.exists(not_expected),
                         'Unexpected script was generated: %s' % not_expected)
 
+    def test_passes_buildout_directory_to_command(self):
+        self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
+        self.assertDictContainsSubset(
+            {'buildout_directory': '"%s"' % self.sample_buildout},
+            extract_script_arguments(script_path))
+
     def test_passes_package_name_to_command(self):
         self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
         self.system(self.buildout)
