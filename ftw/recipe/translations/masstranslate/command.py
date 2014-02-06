@@ -1,6 +1,6 @@
-from ftw.recipe.translations import download
-from ftw.recipe.translations import sync
-from ftw.recipe.translations import upload
+from ftw.recipe.translations.masstranslate import download
+from ftw.recipe.translations.masstranslate import sync
+from ftw.recipe.translations.masstranslate import upload
 from pkg_resources import get_distribution
 import argparse
 import sys
