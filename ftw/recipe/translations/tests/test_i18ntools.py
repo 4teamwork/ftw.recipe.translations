@@ -1,7 +1,9 @@
+from StringIO import StringIO
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
+from ftw.recipe.translations.utils import capture_streams
 from unittest2 import TestCase
 
 
@@ -67,3 +69,17 @@ class TestRebuildPotfiles(TestCase):
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*potfile))
+
+    def test_i18ndude_SystemExit_is_handled(self):
+        # This is quite a "stupid" test:
+        # Rebuilding a domain without having any translations makes the internal
+        # i18ndude command to perform a system exit.
+        # This is really bad, since we are possibly building multiple pot-files
+        # and are doing more stuff and should be in control of such things.
+        fshelpers.create_structure(self.tempdir, {
+                'foo/locales/foo.pot': fshelpers.asset('empty.pot')})
+        try:
+            with capture_streams(stderr=StringIO()):
+                rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
+        except SystemExit:
+            assert False, 'SystemExit leaked from i18ndude while rebuilding pot-files!'

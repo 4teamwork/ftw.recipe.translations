@@ -40,7 +40,10 @@ def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
                            'merge2_fn': content})
 
     with chdir(package_root):
-        i18ndude.script.rebuild_pot(arguments)
+        try:
+            i18ndude.script.rebuild_pot(arguments)
+        except SystemExit:
+            pass
 
 
 def sync_package_pofiles(package_dir, languages):
@@ -84,7 +87,10 @@ def sync_pofile_group(base_dir, group, languages):
 
     arguments = Arguments({'pot_fn': potpath,
                            'files': pofiles})
-    i18ndude.script.sync(arguments)
+    try:
+        i18ndude.script.sync(arguments)
+    except SystemExit:
+        pass
 
 
 def create_new_pofile(path, domain):
