@@ -7,7 +7,7 @@ Google Docs spreadsheets for letting translators translate in a better environme
 Configuration
 -------------
 
-Using the buildout recipe generates a script ``bin/translations``:
+Using the buildout recipe generates a script ``bin/masstranslate``:
 
 .. code:: ini
 
@@ -19,7 +19,7 @@ Using the buildout recipe generates a script ``bin/translations``:
     spreadsheet = https://docs.google.com/spreadsheet/ccc?key=0AgoYEZSDYCg1dEZvVGFTRUc3RDd6123DAFDER
 
 
-The generated ``bin/translations`` script is preconfigured with the
+The generated ``bin/masstranslate`` script is preconfigured with the
 configured ``spreadsheet`` url and applies to all .po-files in the
 ``./src`` directory by default.
 
@@ -46,7 +46,7 @@ The received ticket is stored in the users keyring / keychain.
 The `sync` command
 ------------------
 
-The ``bin/translations`` script provides a ``sync`` command for rebuilding
+The ``bin/masstranslate`` script provides a ``sync`` command for rebuilding
 primary-domain .pot-files and syncing them with all languages.
 
 As **primary domain** the package name (folder in the ``src`` directory) is
@@ -62,14 +62,14 @@ Example:
 
 .. code:: sh
 
-    ./bin/translations sync
+    ./bin/masstranslate sync
 
 Creating new languages for all packages and domains is as easy as passing
 a positional argument:
 
 .. code:: sh
 
-    ./bin/translations sync de
+    ./bin/masstranslate sync de
 
 
 The `upload` command
@@ -95,7 +95,7 @@ Example:
 
 .. code:: sh
 
-    ./bin/translations upload de fr --additional-languages en es
+    ./bin/masstranslate upload de fr --additional-languages en es
     Spreadsheet: https://docs.google.com/spreadsheet/ccc?key=0AgoYEZ....
     Loading translations
     Starting Upload
@@ -119,7 +119,7 @@ Example:
 
 .. code:: sh
 
-    ./bin/translated download
+    ./bin/masstranslate download
     Please select a worksheet to download:
     [1] 011: 2014-01-31
     [2] 012: 2014-01-31
