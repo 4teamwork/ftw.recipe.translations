@@ -20,7 +20,7 @@ def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir
     parser.add_argument('new_languages', nargs='*')
     arguments = parser.parse_args()
 
-    new_languages = arguments.languages or []
+    new_languages = arguments.new_languages or []
 
     if not i18n_domain:
         i18n_domain = package_name
