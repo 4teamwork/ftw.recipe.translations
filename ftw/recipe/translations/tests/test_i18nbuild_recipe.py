@@ -104,11 +104,11 @@ class TestRecipe(TestCase):
         self.assertDictContainsSubset({'package_namespace': '"package"'},
                                       extract_script_arguments(script_path))
 
-    def test_passes_package_directory_to_command(self):
+    def test_passes_package_dir_to_command(self):
         self.write('buildout.cfg', '\n'.join((
                     PACKAGE_BUILDOUT_CONFIG,
                     'package-directory = src/my/package')))
         self.system(self.buildout)
         script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
-        self.assertDictContainsSubset({'package_directory': '"src/my/package"'},
+        self.assertDictContainsSubset({'package_dir': '"src/my/package"'},
                                       extract_script_arguments(script_path))

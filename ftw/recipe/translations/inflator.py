@@ -5,12 +5,12 @@ import os
 import re
 
 
-def rebuild_pot(potfile, package_dir, domain):
+def rebuild_pot(potfile, package_dir, i18n_domain):
     if not os.path.exists(package_dir):
         return
 
     translatable_key_expr = re.compile(
-        r'^[^:]*:translate\(%s\)$' % re.escape(domain))
+        r'^[^:]*:translate\(%s\)$' % re.escape(i18n_domain))
 
     content_creation_files = []
     for dirpath, dirnames, filenames in os.walk(package_dir):
@@ -29,7 +29,7 @@ def rebuild_pot(potfile, package_dir, domain):
     if not msgids:
         return
 
-    catalog = MessageCatalog(domain=domain)
+    catalog = MessageCatalog(domain=i18n_domain)
     for msgid in msgids:
         catalog.add(msgid)
 

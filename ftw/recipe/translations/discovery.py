@@ -4,7 +4,7 @@ import os.path
 import re
 
 
-def discover_package(package_dir, package_name):
+def discover_package(package_dir, package_name=None):
     Group = lambda: {u'package': None,
                      u'domain': None,
                      u'locales': None,
