@@ -1,4 +1,5 @@
 from ftw.recipe.translations import discovery
+from ftw.recipe.translations.discovery import discover_package
 from ftw.recipe.translations.utils import chdir
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter
@@ -12,10 +13,23 @@ class Arguments(dict):
         self.__dict__ = self
 
 
-def rebuild_pot(package_dir, sourcedir, domain, potpath, manual):
+def rebuild_package_potfiles(package_dir, primary_domain):
+    for group in discover_package(package_dir, None):
+        if group['domain'] != primary_domain:
+            continue
+
+        manual = ''
+        if group['manual']:
+            manual = os.path.join(package_dir, group['manual'])
+
+        potpath = os.path.join(package_dir, group['pot'])
+        rebuild_pot(package_dir, primary_domain, potpath, manual)
+
+
+def rebuild_pot(package_dir, domain, potpath, manual):
     arguments = Arguments({'pot_fn': potpath,
                            'create_domain': domain,
-                           'path': [sourcedir],
+                           'path': ['.'],
                            'exclude': '',
                            'merge_fn': manual,
                            'merge2_fn': ''})

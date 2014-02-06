@@ -1,6 +1,5 @@
 from StringIO import StringIO
-from ftw.recipe.translations import discovery
-from ftw.recipe.translations.i18ntools import rebuild_pot
+from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.i18ntools import sync_pofiles
 from ftw.recipe.translations.utils import capture_streams
 import os.path
@@ -32,23 +31,10 @@ def synchronize(sources_directory, languages=None, output=sys.stdout):
 
 
 def rebuild_primary_domain_group_potfiles(sources_directory):
-    for group in discovery.discover(sources_directory):
-        if not group['pot']:
-            continue
-
-        if group['package'] != group['domain']:
-            continue
-
-        locales = os.path.join(sources_directory, group['package'],
-                               group['locales'])
-        package_dir = os.path.join(sources_directory, group['package'])
-        sourcedir = './' + os.path.relpath(
-            os.path.abspath(os.path.join(locales, '..')),
-            package_dir)
-        potpath = os.path.join(package_dir, group['pot'])
-
-        manual = ''
-        if group['manual']:
-            manual = os.path.join(package_dir, group['manual'])
-
-        rebuild_pot(package_dir, sourcedir, group['domain'], potpath, manual)
+    for package_name in os.listdir(sources_directory):
+        package_dir = os.path.join(sources_directory, package_name)
+        if os.path.isdir(package_dir):
+            # assume primary domain is package name, since we have no
+            # possibilities to customize the domain in this environment.
+            primary_domain = package_name
+            rebuild_package_potfiles(package_dir, primary_domain)
