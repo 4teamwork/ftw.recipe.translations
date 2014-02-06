@@ -33,7 +33,7 @@ def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir
 
 
 def build_translations(package_dir, package_root, i18n_domain,
-                       new_languages=None, output=None):
+                       new_languages=None, output=sys.stdout):
     with capture_streams(stdout=output or StringIO()):
         rebuild_inflator(package_dir, i18n_domain)
         rebuild_package_potfiles(package_root, package_dir, i18n_domain)
