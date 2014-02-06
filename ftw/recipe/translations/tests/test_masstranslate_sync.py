@@ -48,8 +48,6 @@ class TestSyncCommand(TestCase):
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
 
-
-
     def test_syncs_po_files_of_existing_languages(self):
         fshelpers.create_structure(self.tempdir, {
                 'foo/foo/__init__.py': '_("Foo")',
@@ -125,3 +123,28 @@ class TestSyncCommand(TestCase):
              'foo/foo/locales/foo-manual.pot',
              'foo/foo/locales/de/LC_MESSAGES/foo.po'],
             fshelpers.files(self.tempdir))
+
+    def test_path_comments_are_relative_in_potfile(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot')})
+
+        potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
+        self.assertEquals({}, pohelpers.messages(*potfile))
+        synchronize(self.tempdir)
+        self.assertEquals({'Foo': ['./foo/__init__.py:1']},
+                          pohelpers.message_references(*potfile))
+
+    def test_path_comments_are_relative_in_pofile(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot'),
+                'foo/foo/locales/de/LC_MESSAGES/foo.po': fshelpers.asset(
+                    'empty.po'),
+                })
+
+
+        pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
+        synchronize(self.tempdir, output=None)
+        self.assertEquals({'Foo': ['./foo/__init__.py:1']},
+                          pohelpers.message_references(*pofile))

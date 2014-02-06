@@ -17,6 +17,17 @@ def messages(*pathparts):
     return messages
 
 
+def message_references(*pathparts):
+    path = os.path.join(*pathparts).encode('utf-8')
+    catalog = MessageCatalog(path)
+
+    messages = {}
+    for msg in catalog.values():
+        messages[msg.msgid] = msg.references
+    return messages
+
+
+
 def makepo(messages):
     data = StringIO()
     data.write(fshelpers.asset('empty.po'))
