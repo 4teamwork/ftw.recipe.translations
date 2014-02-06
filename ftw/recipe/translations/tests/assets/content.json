@@ -1,0 +1,7 @@
+[
+    {
+        "_path": "foo",
+        "_type": "Folder",
+        "title:translate(foo.foo)": "Foo"
+    }
+]
