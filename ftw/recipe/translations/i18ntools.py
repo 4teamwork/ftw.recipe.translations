@@ -43,6 +43,14 @@ def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
         i18ndude.script.rebuild_pot(arguments)
 
 
+def sync_package_pofiles(package_dir, languages):
+    for group in discovery.discover_package(package_dir):
+        if not group['pot']:
+            continue
+
+        sync_pofile_group(package_dir, group, languages)
+
+
 def sync_pofiles(sources_directory, languages):
     for group in discovery.discover(sources_directory):
         if not group['pot']:
@@ -51,18 +59,18 @@ def sync_pofiles(sources_directory, languages):
         sync_pofile_group(sources_directory, group, languages)
 
 
-def sync_pofile_group(sources_directory, group, languages):
+def sync_pofile_group(base_dir, group, languages):
     pofiles = []
     for lang, popath in group['languages'].items():
         if languages is not None and lang not in languages:
             continue
-        pofiles.append(os.path.join(sources_directory,
-                                    group['package'],
+        pofiles.append(os.path.join(base_dir,
+                                    group['package'] or '',
                                     popath))
 
     for lang in set(languages or []) - set(group['languages'].keys()):
-        path = os.path.join(sources_directory,
-                            group['package'],
+        path = os.path.join(base_dir,
+                            group['package'] or '',
                             group['locales'],
                             lang,
                             'LC_MESSAGES',
@@ -70,10 +78,9 @@ def sync_pofile_group(sources_directory, group, languages):
         create_new_pofile(path, group['domain'])
         pofiles.append(path)
 
-    potpath = os.path.join(sources_directory,
-                           group['package'],
+    potpath = os.path.join(base_dir,
+                           group['package'] or '',
                            group['pot'])
-
 
     arguments = Arguments({'pot_fn': potpath,
                            'files': pofiles})

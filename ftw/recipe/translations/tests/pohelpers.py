@@ -1,14 +1,13 @@
 from StringIO import StringIO
 from ftw.recipe.translations.tests import fshelpers
 from i18ndude.catalog import MessageCatalog
-import os.path
 
 
 def messages(*pathparts):
     """Returns a dict of messages (msgid => msgstr) of the po file of which
     the path is passed as argument list.
     """
-    path = os.path.join(*pathparts).encode('utf-8')
+    path = fshelpers.resolve_to_path(pathparts)
     catalog = MessageCatalog(path)
 
     messages = {}
@@ -18,7 +17,7 @@ def messages(*pathparts):
 
 
 def message_references(*pathparts):
-    path = os.path.join(*pathparts).encode('utf-8')
+    path = fshelpers.resolve_to_path(pathparts)
     catalog = MessageCatalog(path)
 
     messages = {}

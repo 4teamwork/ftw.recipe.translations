@@ -1,7 +1,7 @@
 from StringIO import StringIO
 from ftw.recipe.translations import inflator
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
-from ftw.recipe.translations.i18ntools import sync_pofiles
+from ftw.recipe.translations.i18ntools import sync_package_pofiles
 from ftw.recipe.translations.utils import capture_streams
 from ftw.recipe.translations.utils import find_package_directory
 from ftw.recipe.translations.utils import version
@@ -37,7 +37,7 @@ def build_translations(package_dir, package_root, i18n_domain,
     with capture_streams(stdout=output or StringIO()):
         rebuild_inflator(package_dir, i18n_domain)
         rebuild_package_potfiles(package_root, package_dir, i18n_domain)
-        sync_pofiles(package_dir, new_languages)
+        sync_package_pofiles(package_dir, new_languages)
 
 
 def rebuild_inflator(package_dir, i18n_domain):
