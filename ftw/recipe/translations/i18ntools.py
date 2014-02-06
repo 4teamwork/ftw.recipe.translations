@@ -39,7 +39,7 @@ def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
                            'merge_fn': manual,
                            'merge2_fn': content})
 
-    with chdir(package_dir):
+    with chdir(package_root):
         i18ndude.script.rebuild_pot(arguments)
 
 
