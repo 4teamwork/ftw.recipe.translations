@@ -18,7 +18,7 @@ class TestRebuildPotfiles(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        rebuild_package_potfiles(self.tempdir, 'foo')
+        rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         self.assertEquals({'Foo': ''}, pohelpers.messages(*potfile))
 
     def test_does_not_rebuild_secondary_domain_pot_files(self):
@@ -28,7 +28,7 @@ class TestRebuildPotfiles(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/bar.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        rebuild_package_potfiles(self.tempdir, 'foo')
+        rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         self.assertEquals({}, pohelpers.messages(*potfile))
 
     def test_merges_manual_pot_files(self):
@@ -39,7 +39,7 @@ class TestRebuildPotfiles(TestCase):
                     'foo.pot'),
                 })
 
-        rebuild_package_potfiles(self.tempdir, 'foo')
+        rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         pofile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
@@ -52,7 +52,7 @@ class TestRebuildPotfiles(TestCase):
                     'foo.pot'),
                 })
 
-        rebuild_package_potfiles(self.tempdir, 'foo')
+        rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         pofile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
@@ -64,6 +64,6 @@ class TestRebuildPotfiles(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        rebuild_package_potfiles(self.tempdir, 'foo')
+        rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*potfile))

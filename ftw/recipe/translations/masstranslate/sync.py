@@ -37,4 +37,5 @@ def rebuild_primary_domain_group_potfiles(sources_directory):
             # assume primary domain is package name, since we have no
             # possibilities to customize the domain in this environment.
             primary_domain = package_name
-            rebuild_package_potfiles(package_dir, primary_domain)
+            package_root = package_dir
+            rebuild_package_potfiles(package_root, package_dir, primary_domain)

@@ -28,13 +28,15 @@ def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir
         package_dir = find_package_directory(buildout_dir, package_name,
                                              package_namespace)
 
-    build_translations(package_dir, i18n_domain, new_languages)
+    package_root = buildout_dir
+    build_translations(package_dir, package_root, i18n_domain, new_languages)
 
 
-def build_translations(package_dir, i18n_domain, new_languages=None, output=None):
+def build_translations(package_dir, package_root, i18n_domain,
+                       new_languages=None, output=None):
     with capture_streams(stdout=output or StringIO()):
         rebuild_inflator(package_dir, i18n_domain)
-        rebuild_package_potfiles(package_dir, i18n_domain)
+        rebuild_package_potfiles(package_root, package_dir, i18n_domain)
         sync_pofiles(package_dir, new_languages)
 
 

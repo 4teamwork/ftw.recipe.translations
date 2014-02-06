@@ -13,7 +13,7 @@ class Arguments(dict):
         self.__dict__ = self
 
 
-def rebuild_package_potfiles(package_dir, primary_domain):
+def rebuild_package_potfiles(package_root, package_dir, primary_domain):
     for group in discover_package(package_dir, None):
         if group['domain'] != primary_domain:
             continue
@@ -27,10 +27,11 @@ def rebuild_package_potfiles(package_dir, primary_domain):
             content = os.path.join(package_dir, group['content'])
 
         potpath = os.path.join(package_dir, group['pot'])
-        rebuild_pot(package_dir, primary_domain, potpath, manual, content)
+        rebuild_pot(package_root, package_dir, primary_domain, potpath,
+                    manual, content)
 
 
-def rebuild_pot(package_dir, domain, potpath, manual, content):
+def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
     arguments = Arguments({'pot_fn': potpath,
                            'create_domain': domain,
                            'path': ['.'],

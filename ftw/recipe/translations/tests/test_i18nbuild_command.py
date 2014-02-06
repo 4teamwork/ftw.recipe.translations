@@ -20,7 +20,7 @@ class TestI18nbuildCommand(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertEquals({'Foo': ''}, pohelpers.messages(*potfile))
 
     def test_does_not_rebuild_secondary_domain_pot_files(self):
@@ -30,7 +30,7 @@ class TestI18nbuildCommand(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/bar.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertEquals({}, pohelpers.messages(*potfile))
 
     def test_merges_manual_pot_files(self):
@@ -43,7 +43,7 @@ class TestI18nbuildCommand(TestCase):
                     'empty.po'),
                 })
 
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
@@ -58,7 +58,7 @@ class TestI18nbuildCommand(TestCase):
                     'empty.po'),
                 })
 
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
@@ -76,7 +76,7 @@ class TestI18nbuildCommand(TestCase):
         self.assertEquals({}, pohelpers.messages(*pofile))
 
         output = StringIO()
-        build_translations(self.tempdir, 'foo', output=output)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=output)
 
         self.assertEquals({'Foo': ''}, pohelpers.messages(*pofile))
         self.assertRegexpMatches(output.getvalue(),
@@ -96,7 +96,7 @@ class TestI18nbuildCommand(TestCase):
         self.assertEquals({}, pohelpers.messages(*en))
         self.assertEquals({}, pohelpers.messages(*de))
 
-        build_translations(self.tempdir, 'foo', new_languages=['en'], output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', new_languages=['en'], output=None)
 
         self.assertEquals({'Login': ''}, pohelpers.messages(*en))
         self.assertEquals({}, pohelpers.messages(*de))
@@ -108,12 +108,12 @@ class TestI18nbuildCommand(TestCase):
         enpath = os.path.join(self.tempdir,
                               'foo/foo/locales/en/LC_MESSAGES/bar.po')
 
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertFalse(os.path.exists(enpath),
                          'A sync without selecting languages should'
                          ' not create new languages.')
 
-        build_translations(self.tempdir, 'foo', new_languages=['en'], output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', new_languages=['en'], output=None)
         self.assertTrue(os.path.exists(enpath),
                         'A sync with selecting languages should'
                         ' create missing languages.')
@@ -130,7 +130,7 @@ class TestI18nbuildCommand(TestCase):
                     'foo-de.po'),
                 })
 
-        build_translations(self.tempdir, 'foo', new_languages=['de'], output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', new_languages=['de'], output=None)
 
         self.assertItemsEqual(
             ['foo/foo/__init__.py',
@@ -146,7 +146,7 @@ class TestI18nbuildCommand(TestCase):
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
         self.assertEquals({}, pohelpers.messages(*potfile))
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*potfile))
 
@@ -160,6 +160,6 @@ class TestI18nbuildCommand(TestCase):
 
 
         pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
-        build_translations(self.tempdir, 'foo', output=None)
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*pofile))
