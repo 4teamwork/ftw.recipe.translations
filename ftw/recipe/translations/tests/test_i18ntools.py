@@ -5,6 +5,7 @@ from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
 from ftw.recipe.translations.utils import capture_streams
 from unittest2 import TestCase
+import os.path
 
 
 class TestRebuildPotfiles(TestCase):
@@ -32,6 +33,20 @@ class TestRebuildPotfiles(TestCase):
         self.assertEquals({}, pohelpers.messages(*potfile))
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         self.assertEquals({}, pohelpers.messages(*potfile))
+
+    def test_does_not_include_messages_outside_of_package_dir(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot'),
+                'src/bar/__init__.py': '_("Bar")'})
+
+        package_dir = os.path.join(self.tempdir, 'foo')
+        potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
+        rebuild_package_potfiles(self.tempdir, package_dir, 'foo')
+        self.assertNotIn('Bar', pohelpers.messages(*potfile),
+                         'Messages from sub-checkouts should not be included.')
+        self.assertEquals({'Foo': ''}, pohelpers.messages(*potfile),
+                          'Expected translations in package to be discovered.')
 
     def test_merges_manual_pot_files(self):
         fshelpers.create_structure(self.tempdir, {
