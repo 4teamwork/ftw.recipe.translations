@@ -11,15 +11,6 @@ DEFAULT_BUILDOUT_CONFIG = '\n'.join((
         'recipe = ftw.recipe.translations'))
 
 
-I18N_BUILDOUT_CONFIG = '\n'.join((
-        '[buildout]',
-        'parts = i18n',
-        '',
-        '[i18n]',
-        'recipe = ftw.recipe.translations'))
-
-
-
 class TestRecipe(TestCase):
 
     layer = RECIPE_FIXTURE
