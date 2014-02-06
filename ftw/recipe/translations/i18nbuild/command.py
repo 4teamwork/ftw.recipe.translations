@@ -12,7 +12,7 @@ import sys
 
 def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir):
     assert buildout_dir, 'missing compulsory argument buildout_dir'
-    assert package_namespace, 'missing compulsory argument package_namespace'
+    assert package_name, 'missing compulsory argument package_name'
 
     parser = argparse.ArgumentParser(sys.argv[0])
     parser.add_argument('--version', action='version',
@@ -23,11 +23,10 @@ def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir
     new_languages = arguments.languages or []
 
     if not i18n_domain:
-        i18n_domain = package_namespace
-    if not package_name:
-        package_name = package_namespace
+        i18n_domain = package_name
     if not package_dir:
-        package_dir = find_package_directory(buildout_dir, package_name)
+        package_dir = find_package_directory(buildout_dir, package_name,
+                                             package_namespace)
 
     build_translations(package_dir, i18n_domain, new_languages)
 

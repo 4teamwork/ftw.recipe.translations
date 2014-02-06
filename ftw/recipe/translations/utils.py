@@ -4,10 +4,15 @@ import os
 import sys
 
 
-def find_package_directory(buildout_dir, package_name):
+def find_package_directory(buildout_dir, package_name, package_namespace):
     namepath = package_name.replace('.', '/')
-    for each in (namepath, os.path.join('src', namepath),
+    for each in (namepath,
+                 package_namespace,
+                 os.path.join('src', namepath),
                  os.path.join('src', package_name, namepath)):
+        if each is None:
+            continue
+
         directory = os.path.join(buildout_dir, each)
         if os.path.exists(directory) and os.path.isdir(directory):
             return directory
