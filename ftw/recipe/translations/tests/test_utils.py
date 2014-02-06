@@ -59,7 +59,10 @@ class TestFindPackageNamespace(TestCase):
 
     def test_find_package_directory_in_custom_namespace_folder(self):
         os.makedirs(os.path.join(self.tempdir, 'my/package'))
+        directory = find_package_directory(self.tempdir, 'foo.bar', 'my.package')
+        self.assertEqual(os.path.join(self.tempdir, 'my/package'), directory)
 
-        directory = find_package_directory(self.tempdir, 'foo.bar', 'my/package')
-        self.assertEqual(os.path.join(self.tempdir, 'my/package'),
-                         directory)
+    def test_package_namespace_has_precedence(self):
+        os.makedirs(os.path.join(self.tempdir, 'my/package'))
+        directory = find_package_directory(self.tempdir, 'my', 'my.package')
+        self.assertEqual(os.path.join(self.tempdir, 'my/package'), directory)

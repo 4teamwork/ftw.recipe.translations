@@ -6,8 +6,9 @@ import sys
 
 def find_package_directory(buildout_dir, package_name, package_namespace):
     namepath = package_name.replace('.', '/')
-    for each in (namepath,
-                 package_namespace,
+    package_namespace = package_namespace and package_namespace.replace('.', '/')
+    for each in (package_namespace,
+                 namepath,
                  os.path.join('src', namepath),
                  os.path.join('src', package_name, namepath)):
         if each is None:
