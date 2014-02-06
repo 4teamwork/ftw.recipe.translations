@@ -1,12 +1,13 @@
+from StringIO import StringIO
+from ftw.recipe.translations import inflator
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
-from ftw.recipe.translations.utils import find_package_dir
+from ftw.recipe.translations.i18ntools import sync_pofiles
+from ftw.recipe.translations.utils import capture_streams
+from ftw.recipe.translations.utils import find_package_directory
 from ftw.recipe.translations.utils import version
 import argparse
-import sys
-from ftw.recipe.translations import discovery
-from ftw.recipe.translations.discovery import discover_package
 import os
-from ftw.recipe.translations import inflator
+import sys
 
 
 def main(buildout_dir, package_name, i18n_domain, package_namespace,
@@ -27,23 +28,19 @@ def main(buildout_dir, package_name, i18n_domain, package_namespace,
     if not package_name:
         package_name = package_namespace
     if not package_dir:
-        package_dir = find_package_dir(buildout_dir, package_name)
+        package_dir = find_package_directory(buildout_dir, package_name)
 
     build_translations(package_dir, i18n_domain, new_languages)
 
 
-def build_translations(package_dir, i18n_domain, new_languages=None):
-    rebuild_inflator(package_dir, i18n_domain)
-    rebuild_package_potfiles(package_dir, i18n_domain)
-    sync_potfiles(package_dir, new_languages)
+def build_translations(package_dir, i18n_domain, new_languages=None, output=None):
+    with capture_streams(stdout=output or StringIO()):
+        rebuild_inflator(package_dir, i18n_domain)
+        rebuild_package_potfiles(package_dir, i18n_domain)
+        sync_pofiles(package_dir, new_languages)
 
 
 def rebuild_inflator(package_dir, i18n_domain):
     potfile_name = '{}-content.pot'.format(i18n_domain)
     potfile = os.path.join(package_dir, 'locales', potfile_name)
     inflator.rebuild_pot(potfile, package_dir, i18n_domain)
-
-
-def sync_potfiles(package_dir, new_languages=None):
-    pass
-
