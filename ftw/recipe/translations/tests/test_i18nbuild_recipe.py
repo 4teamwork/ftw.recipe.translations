@@ -71,7 +71,7 @@ class TestRecipe(TestCase):
         self.system(self.buildout)
         script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
         self.assertDictContainsSubset(
-            {'buildout_directory': '"%s"' % self.sample_buildout},
+            {'buildout_dir': '"%s"' % self.sample_buildout},
             extract_script_arguments(script_path))
 
     def test_passes_package_name_to_command(self):

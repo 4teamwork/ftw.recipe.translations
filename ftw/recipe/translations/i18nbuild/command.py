@@ -10,8 +10,7 @@ import os
 import sys
 
 
-def main(buildout_dir, package_name, i18n_domain, package_namespace,
-         package_dir):
+def main(buildout_dir, package_name, i18n_domain, package_namespace, package_dir):
     assert buildout_dir, 'missing compulsory argument buildout_dir'
     assert package_namespace, 'missing compulsory argument package_namespace'
 
