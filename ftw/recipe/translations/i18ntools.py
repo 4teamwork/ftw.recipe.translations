@@ -86,6 +86,7 @@ def sync_pofile_group(base_dir, group, languages):
                            'files': pofiles})
     i18ndude.script.sync(arguments)
 
+
 def create_new_pofile(path, domain):
     catalog = MessageCatalog(domain=domain)
     if not os.path.exists(os.path.dirname(path)):

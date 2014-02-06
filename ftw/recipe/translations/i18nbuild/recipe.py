@@ -4,7 +4,8 @@ from zc.recipe.egg import Egg
 class Recipe(Egg):
 
     def __init__(self, buildout, name, options):
-        assert options.get('package-name'), '%s:package-name is required' % name
+        assert options.get('package-name'), \
+            '%s:package-name is required' % name
         name = 'ftw.recipe.translations'
 
         # Only install "bin/i18n-build" script, not other scripts.

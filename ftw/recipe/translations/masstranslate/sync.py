@@ -12,9 +12,10 @@ def setup_argparser(subparsers):
 
     subparser.add_argument(
         'languages', nargs='*', metavar='lang',
-        help='Language code of languages to synchronize.' + \
-            ' If defined, only the defined languages are synchronized' + \
-            ' and will be created if missing.')
+        help='Language code of languages to synchronize.' +
+        ' If defined, only the defined languages are synchronized' +
+        ' and will be created if missing.')
+
 
 def synchronize_command(args, spreadsheet_url):
     return synchronize(args.sources_dir, args.languages)

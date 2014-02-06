@@ -94,7 +94,8 @@ def _find_pot_files(package_dir, package_name):
 
         yield {u'package': package_name,
                u'domain': unicode(filepath.basename().splitext()[0]),
-               u'locales': os.path.dirname(path(filepath).relpath(package_dir)),
+               u'locales': os.path.dirname(path(filepath)
+                                           .relpath(package_dir)),
                u'relative_path': path(filepath).relpath(package_dir),
                u'absolute_path': filepath,
                u'manual': manual,
