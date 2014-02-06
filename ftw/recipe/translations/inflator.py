@@ -5,15 +5,15 @@ import os
 import re
 
 
-def rebuild_pot(potfile, profiles_dir, domain):
-    if not os.path.exists(profiles_dir):
+def rebuild_pot(potfile, package_dir, domain):
+    if not os.path.exists(package_dir):
         return
 
     translatable_key_expr = re.compile(
         r'^[^:]*:translate\(%s\)$' % re.escape(domain))
 
     content_creation_files = []
-    for dirpath, dirnames, filenames in os.walk(profiles_dir):
+    for dirpath, dirnames, filenames in os.walk(package_dir):
         if not dirpath.rstrip('/').endswith('/content_creation'):
             continue
 
