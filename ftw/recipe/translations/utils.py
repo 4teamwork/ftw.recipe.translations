@@ -1,6 +1,20 @@
 from contextlib import contextmanager
+from pkg_resources import get_distribution
 import os
 import sys
+
+
+def find_package_directory(buildout_dir, package_name):
+    namepath = package_name.replace('.', '/')
+    for each in (namepath, os.path.join('src', namepath),
+                 os.path.join('src', package_name, namepath)):
+        directory = os.path.join(buildout_dir, each)
+        if os.path.exists(directory) and os.path.isdir(directory):
+            return directory
+
+
+def version():
+    return get_distribution('ftw.recipe.translations').version
 
 
 @contextmanager
