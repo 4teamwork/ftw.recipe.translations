@@ -22,17 +22,21 @@ def rebuild_package_potfiles(package_dir, primary_domain):
         if group['manual']:
             manual = os.path.join(package_dir, group['manual'])
 
+        content = ''
+        if group['content']:
+            content = os.path.join(package_dir, group['content'])
+
         potpath = os.path.join(package_dir, group['pot'])
-        rebuild_pot(package_dir, primary_domain, potpath, manual)
+        rebuild_pot(package_dir, primary_domain, potpath, manual, content)
 
 
-def rebuild_pot(package_dir, domain, potpath, manual):
+def rebuild_pot(package_dir, domain, potpath, manual, content):
     arguments = Arguments({'pot_fn': potpath,
                            'create_domain': domain,
                            'path': ['.'],
                            'exclude': '',
                            'merge_fn': manual,
-                           'merge2_fn': ''})
+                           'merge2_fn': content})
 
     with chdir(package_dir):
         i18ndude.script.rebuild_pot(arguments)

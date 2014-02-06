@@ -44,6 +44,19 @@ class TestRebuildPotfiles(TestCase):
         self.assertEquals({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
 
+    def test_merges_content_pot_files(self):
+        fshelpers.create_structure(self.tempdir, {
+                'foo/foo/__init__.py': '_("Foo")',
+                'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot'),
+                'foo/foo/locales/foo-content.pot': fshelpers.asset(
+                    'foo.pot'),
+                })
+
+        rebuild_package_potfiles(self.tempdir, 'foo')
+        pofile = (self.tempdir, 'foo/foo/locales/foo.pot')
+        self.assertEquals({'Foo': '',
+                           'Login': ''}, pohelpers.messages(*pofile))
+
     def test_path_comments_are_relative_in_potfile(self):
         fshelpers.create_structure(self.tempdir, {
                 'foo/foo/__init__.py': '_("Foo")',
