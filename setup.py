@@ -54,8 +54,8 @@ setup(name='ftw.recipe.translations',
 
       entry_points = {
         'zc.buildout': [
-            'default = ftw.recipe.translations.recipe:Recipe'],
+            'default = ftw.recipe.translations.masstranslate.recipe:Recipe'],
         'console_scripts': [
-            'masstranslate = ftw.recipe.translations.command:main']
+            'masstranslate = ftw.recipe.translations.masstranslate.command:main']
         },
       )

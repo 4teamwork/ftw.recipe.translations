@@ -1,5 +1,5 @@
 from StringIO import StringIO
-from ftw.recipe.translations.sync import synchronize
+from ftw.recipe.translations.masstranslate.sync import synchronize
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers

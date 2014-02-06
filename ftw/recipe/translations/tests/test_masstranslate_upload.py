@@ -1,4 +1,4 @@
-from ftw.recipe.translations import upload
+from ftw.recipe.translations.masstranslate import upload
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers

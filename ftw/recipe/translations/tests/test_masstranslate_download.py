@@ -1,4 +1,4 @@
-from ftw.recipe.translations import download
+from ftw.recipe.translations.masstranslate import download
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
