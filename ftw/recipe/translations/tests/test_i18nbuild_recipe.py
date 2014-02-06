@@ -95,13 +95,27 @@ class TestRecipe(TestCase):
         self.assertDictContainsSubset({'i18n_domain': '"thedomain"'},
                                       extract_script_arguments(script_path))
 
+    def test_i18ndomain_defaults_to_empty_string(self):
+        self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
+        self.assertDictContainsSubset({'i18n_domain': '""'},
+                                      extract_script_arguments(script_path))
+
     def test_passes_package_namespace_to_command(self):
         self.write('buildout.cfg', '\n'.join((
                     PACKAGE_BUILDOUT_CONFIG,
-                    'package-namespace = package')))
+                    'package-namespace = the.package')))
         self.system(self.buildout)
         script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
-        self.assertDictContainsSubset({'package_namespace': '"package"'},
+        self.assertDictContainsSubset({'package_namespace': '"the.package"'},
+                                      extract_script_arguments(script_path))
+
+    def test_package_namespace_defaults_to_empty_string(self):
+        self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
+        self.assertDictContainsSubset({'package_namespace': '""'},
                                       extract_script_arguments(script_path))
 
     def test_passes_package_dir_to_command(self):
@@ -111,4 +125,11 @@ class TestRecipe(TestCase):
         self.system(self.buildout)
         script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
         self.assertDictContainsSubset({'package_dir': '"src/my/package"'},
+                                      extract_script_arguments(script_path))
+
+    def test_package_dir_defaults_to_empty_string(self):
+        self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
+        self.system(self.buildout)
+        script_path = os.path.join(self.sample_buildout, 'bin', 'i18n-build')
+        self.assertDictContainsSubset({'package_dir': '""'},
                                       extract_script_arguments(script_path))

@@ -12,9 +12,9 @@ class Recipe(Egg):
 
         kwargs = {'buildout_dir': buildout['buildout']['directory'],
                   'package_name': options.get('package-name'),
-                  'i18n_domain': options.get('i18n-domain'),
-                  'package_namespace': options.get('package-namespace'),
-                  'package_dir': options.get('package-directory')}
+                  'i18n_domain': options.get('i18n-domain', ''),
+                  'package_namespace': options.get('package-namespace', ''),
+                  'package_dir': options.get('package-directory', '')}
         options['arguments'] = ', '.join(
             ['%s="%s"' % (key, value) for (key, value) in kwargs.items()])
 
