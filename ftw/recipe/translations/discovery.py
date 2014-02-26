@@ -25,7 +25,7 @@ def discover(sources_directory):
                     'Unexpected locales directory %s for file %s; '
                     'expected locales directory to be %s') % (
                     match['locales'], match['absolute_path'],
-                    match['locales']))
+                    group['locales']))
 
     for match in _find_pot_files(sources_directory):
         group = items[match[u'package'], match[u'domain']]
@@ -39,7 +39,7 @@ def discover(sources_directory):
                     'Unexpected locales directory %s for file %s; '
                     'expected locales directory to be %s') % (
                     match['locales'], match['absolute_path'],
-                    match['locales']))
+                    group['locales']))
 
     for key, value in items.items():
         package, domain = key
