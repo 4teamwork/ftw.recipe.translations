@@ -82,25 +82,6 @@ class TestI18nbuildCommand(TestCase):
         self.assertRegexpMatches(output.getvalue(),
                                  r'\/foo.po: 1 added, 0 removed')
 
-    def test_syncs_only_selected_languages(self):
-        fshelpers.create_structure(self.tempdir, {
-                'foo/foo/locales/bar.pot': fshelpers.asset('foo.pot'),
-                'foo/foo/locales/en/LC_MESSAGES/bar.po': fshelpers.asset(
-                    'empty.po'),
-                'foo/foo/locales/de/LC_MESSAGES/bar.po': fshelpers.asset(
-                    'empty.po'),
-                })
-
-        en = (self.tempdir, 'foo/foo/locales/en/LC_MESSAGES/bar.po')
-        de = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/bar.po')
-        self.assertEquals({}, pohelpers.messages(*en))
-        self.assertEquals({}, pohelpers.messages(*de))
-
-        build_translations(self.tempdir, self.tempdir, 'foo', new_languages=['en'], output=None)
-
-        self.assertEquals({'Login': ''}, pohelpers.messages(*en))
-        self.assertEquals({}, pohelpers.messages(*de))
-
     def test_creates_selected_languages_when_missing(self):
         fshelpers.create_structure(self.tempdir, {
                 'foo/foo/locales/bar.pot': fshelpers.asset('foo.pot')})

@@ -34,6 +34,7 @@ class TestI18nbuildCommandIntegration(TestCase):
         package = 'the/package'
         locales = (package, 'locales')
         locales_de = (locales, 'de/LC_MESSAGES')
+        locales_en = (locales, 'en/LC_MESSAGES')
         profile = (package, 'profiles/default')
 
         fshelpers.create_structure(self.sample_buildout, {
@@ -43,6 +44,8 @@ class TestI18nbuildCommandIntegration(TestCase):
                 (locales, 'plone.pot'): pohelpers.makepo({
                         'save': ('Save', '')}),
                 (locales_de, 'package.po'): (
+                    fshelpers.asset('empty.po')),
+                (locales_en, 'plone.po'): (
                     fshelpers.asset('empty.po')),
 
                 (package, '__init__.py'): '_("Foo")',
@@ -78,6 +81,10 @@ class TestI18nbuildCommandIntegration(TestCase):
             self.assertEquals({u'save': u''},
                               pohelpers.messages(locales_de, 'plone.po'),
                               'Alternate domain ("plone") .po-file was not synced.')
+
+            self.assertEquals({u'save': u''},
+                              pohelpers.messages(locales_en, 'plone.po'),
+                              'Existing language was not synced.')
 
             # path comments
             self.assertDictContainsSubset(

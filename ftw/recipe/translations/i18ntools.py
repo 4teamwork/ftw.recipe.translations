@@ -56,7 +56,10 @@ def sync_package_pofiles(package_dir, languages):
         if not group['pot']:
             continue
 
-        sync_pofile_group(package_dir, group, languages)
+        langs = group['languages'].keys()
+        if languages:
+            langs += languages
+        sync_pofile_group(package_dir, group, langs)
 
 
 def sync_pofiles(sources_directory, languages):
