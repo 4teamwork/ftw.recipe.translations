@@ -33,6 +33,7 @@ def rebuild_package_potfiles(package_root, package_dir, primary_domain):
 
 
 def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
+    print 'Rebuilding', potpath
     relative_path = path(package_dir).relpath(package_root)
     if relative_path != '.':
         relative_path = os.path.join('.', relative_path)
