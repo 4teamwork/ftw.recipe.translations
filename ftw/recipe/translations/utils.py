@@ -12,7 +12,7 @@ def find_package_directory(buildout_dir, package_name, package_namespace):
                  namepath,
                  os.path.join('src', namepath),
                  os.path.join('src', package_name, namepath)):
-        if each is None:
+        if each in (None, ''):
             continue
 
         directory = os.path.join(buildout_dir, each)
