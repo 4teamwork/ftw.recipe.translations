@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.1.0 (2014-03-05)
 ------------------
 
 - Implement new bin/i18n-build recipe and script.
