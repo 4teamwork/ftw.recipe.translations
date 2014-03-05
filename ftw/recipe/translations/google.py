@@ -89,8 +89,9 @@ class Spreadsheet(object):
         return names
 
     def _create_worksheet(self, rows, cols):
-        prefixes = map(int, map(lambda name: WORKSHEET_PREFIX_XPR.match(name).group(1),
-                                self.worksheets()))
+        prefixes = map(int, map(
+                lambda name: WORKSHEET_PREFIX_XPR.match(name).group(1),
+                self.worksheets()))
         next_prefix = unicode(max(prefixes or [0]) + 1).rjust(3, '0')
         name = ': '.join((next_prefix, datetime.now().strftime('%Y-%m-%d')))
         return self.document.add_worksheet(name, rows=rows, cols=cols)
@@ -118,8 +119,8 @@ class Spreadsheet(object):
         if os.path.exists(path):
             return path
 
-        print 'The clients scretes file for the Google Application is missing at ', \
-            path
+        print 'The clients scretes file for the Google Application' + \
+            ' is missing at ', path
         print ''
         print 'Please copy your company application secrets file to this path.'
         print 'If you or your company has not created an application yet, ', \

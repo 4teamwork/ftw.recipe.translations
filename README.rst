@@ -1,13 +1,122 @@
-ftw.recipe.translations
-=======================
+=========================
+ ftw.recipe.translations
+=========================
 
-``ftw.recipe.translations`` provides mass export / import of translations into / from
-Google Docs spreadsheets for letting translators translate in a better environment.
+``ftw.recipe.translations`` provides mass theese features:
 
-Configuration
--------------
+- ``bin/i18n-build``: Package rebuilding script for installing in a single package.
 
-Using the buildout recipe generates a script ``bin/translations``:
+- ``bin/masstranslate``: export / import of translations into / from Google
+  Docs spreadsheets for letting translators translate in a better environment.
+
+.. contents:: Table of Contents
+
+
+bin/i18n-build
+==============
+
+The ``i18n-build`` script is installed for a single package.
+When executed, all languages of all domains translated in this package are rebuilt.
+
+The script expectes exactly one primary domain.
+The domain name is expected to be equal to the package name (configurable).
+
+What the script does:
+
+- The script rebuilds the primary package using `i18ndude`: it scans for translated
+  strings in the code and rebuilds the `.pot` of the primary domain.
+
+- It syncs the `.po`-files of all domains in all languages.
+
+
+Installation and configuration
+------------------------------
+
+For installation simply use the zc.buildout recipe ``ftw.recipe.translations:package``:
+
+.. code:: ini
+
+    [buildout]
+    parts = i18n-build
+
+    [i18n-build]
+    recipe = ftw.recipe.translations:package
+    package-name = my.package
+
+**Options:**
+
+package-name
+  The setuptools-name of the package (required).
+
+i18n-domain
+  The name of the primary domain of this package (optional, defaults to the package name).
+
+package-namespace
+  The package namespace used for scanning the code when rebuilding the
+  primary domain (optional, defaults to the the package name).
+
+**Full example:**
+
+.. code:: ini
+
+    [buidlout]
+    parts = i18n-build
+
+    [i18n-build]
+    recipe = ftw.recipe.translations:package
+    package-name = MyPackage
+    i18n-domain = mypackage
+    package-namespace = my.package
+
+
+Usage
+-----
+
+Rebuilding and syncing all existing languages:
+
+.. code:: sh
+
+    $ bin/i18n-build
+    Rebuilding .../my/package/locales/mypackage.pot
+    .../my/package/locales/de/LC_MESSAGES/mypackage.po: 0 added, 2 removed
+    .../my/package/locales/en/LC_MESSAGES/mypackage.po: 1 added, 2 removed
+    .../my/package/locales/de/LC_MESSAGES/plone.po: 1 added
+    .../my/package/locales/en/LC_MESSAGES/plone.po: 1 added
+
+
+Creating translations (.po-files) for new languages:
+
+.. code:: sh
+
+    $ bin/i18n-build fr it
+    Rebuilding .../my/package/locales/mypackage.pot
+    .../my/package/locales/de/LC_MESSAGES/mypackage.po: 0 added, 2 removed
+    .../my/package/locales/en/LC_MESSAGES/mypackage.po: 1 added, 2 removed
+    .../my/package/locales/fr/LC_MESSAGES/mypackage.po: 80 added, 0 removed
+    .../my/package/locales/it/LC_MESSAGES/mypackage.po: 80 added, 0 removed
+    .../my/package/locales/de/LC_MESSAGES/plone.po: 1 added
+    .../my/package/locales/en/LC_MESSAGES/plone.po: 1 added
+    .../my/package/locales/fr/LC_MESSAGES/plone.po: 3 added, 0 removed
+    .../my/package/locales/it/LC_MESSAGES/plone.po: 3 added, 0 removed
+
+
+
+
+bin/masstranslate
+=================
+
+The ``masstranslate`` script is installed in a buildout which checks out
+all relevant packages into an ``src``-directory (e.g. using ``mr.developer``).
+
+You then can upload all translations of all packages in the source-directory
+into a Googlea spreadsheet for translation.
+When the translation is done in the Google spreadsheet the script can download
+all translations and sync them back to the right place in the packages.
+
+Installation and Configuration
+------------------------------
+
+Using the buildout recipe generates a script ``bin/masstranslate``:
 
 .. code:: ini
 
@@ -19,7 +128,7 @@ Using the buildout recipe generates a script ``bin/translations``:
     spreadsheet = https://docs.google.com/spreadsheet/ccc?key=0AgoYEZSDYCg1dEZvVGFTRUc3RDd6123DAFDER
 
 
-The generated ``bin/translations`` script is preconfigured with the
+The generated ``bin/masstranslate`` script is preconfigured with the
 configured ``spreadsheet`` url and applies to all .po-files in the
 ``./src`` directory by default.
 
@@ -46,7 +155,7 @@ The received ticket is stored in the users keyring / keychain.
 The `sync` command
 ------------------
 
-The ``bin/translations`` script provides a ``sync`` command for rebuilding
+The ``bin/masstranslate`` script provides a ``sync`` command for rebuilding
 primary-domain .pot-files and syncing them with all languages.
 
 As **primary domain** the package name (folder in the ``src`` directory) is
@@ -62,14 +171,14 @@ Example:
 
 .. code:: sh
 
-    ./bin/translations sync
+    ./bin/masstranslate sync
 
 Creating new languages for all packages and domains is as easy as passing
 a positional argument:
 
 .. code:: sh
 
-    ./bin/translations sync de
+    ./bin/masstranslate sync de
 
 
 The `upload` command
@@ -95,7 +204,7 @@ Example:
 
 .. code:: sh
 
-    ./bin/translations upload de fr --additional-languages en es
+    ./bin/masstranslate upload de fr --additional-languages en es
     Spreadsheet: https://docs.google.com/spreadsheet/ccc?key=0AgoYEZ....
     Loading translations
     Starting Upload
@@ -119,7 +228,7 @@ Example:
 
 .. code:: sh
 
-    ./bin/translated download
+    ./bin/masstranslate download
     Please select a worksheet to download:
     [1] 011: 2014-01-31
     [2] 012: 2014-01-31
@@ -136,7 +245,7 @@ Example:
 
 
 Links
------
+=====
 
 - github project: https://github.com/4teamwork/ftw.recipe.translations
 - Issue tracker: https://github.com/4teamwork/ftw.recipe.translations/issues
@@ -145,7 +254,7 @@ Links
 
 
 Copyright
----------
+=========
 
 This package is copyright by `4teamwork <http://www.4teamwork.ch/>`_.
 

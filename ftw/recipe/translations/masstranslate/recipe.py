@@ -8,6 +8,9 @@ class Recipe(Egg):
         self.options = options
         name = 'ftw.recipe.translations'
 
+        # Only install "bin/masstranslate" script, not other scripts.
+        options['scripts'] = 'masstranslate'
+
         # initialize sources_dir variable, based on mr.developer config
         sources_dir = buildout['buildout'].get('sources-dir')
         if not sources_dir:

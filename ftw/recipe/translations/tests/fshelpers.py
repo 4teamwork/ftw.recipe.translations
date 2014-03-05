@@ -2,9 +2,12 @@ from path import path
 import os
 
 
-def create_structure(basedir, structure):
+def create_structure(*dirs_and_structure):
+    structure = dirs_and_structure[-1]
+    basedir = resolve_to_path(dirs_and_structure[:-1])
+
     for filepath, data in structure.items():
-        filepath = os.path.join(basedir, filepath)
+        filepath = resolve_to_path((basedir, filepath))
         dirname = os.path.dirname(filepath)
         if not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -29,3 +32,12 @@ def asset(name):
 def files(directory):
     for filepath in path(directory).walkfiles():
         yield str(filepath.relpath(directory))
+
+
+def resolve_to_path(pathparts):
+    if isinstance(pathparts, (list, tuple)):
+        return os.path.join(*map(resolve_to_path, pathparts))
+    elif isinstance(pathparts, unicode):
+        return pathparts.encode('utf-8')
+    else:
+        return pathparts
