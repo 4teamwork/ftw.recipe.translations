@@ -244,6 +244,17 @@ Example:
     Language:
 
 
+Translation headers
+===================
+
+The syncing commands remove the .po-file header `Domain`, `Language-Name` and
+`Language-Code`. The reason for this behavior is that this package is primarely
+made for Plone packages and Plone does not read those headers (it gets the
+information from the paths, e.g. `locales/[lang-code]/LC_MESSAGES/[domain].po`).
+Because the headers are not relevant they are often not maintained properly and
+therefore usually wrong.
+
+
 Links
 =====
 
