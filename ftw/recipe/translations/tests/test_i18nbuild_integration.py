@@ -86,6 +86,13 @@ class TestI18nbuildCommandIntegration(TestCase):
                               pohelpers.messages(locales_en, 'plone.po'),
                               'Existing language was not synced.')
 
+            lines = fshelpers.cat(locales_de, 'package.po').split('\n')
+            self.assertEquals(
+                [],
+                filter(lambda line: line.startswith('"Domain'), lines),
+                '.po-files should not contain Domain-headers, because'
+                ' they are not relevant and often not set correctly.')
+
             # path comments
             self.assertDictContainsSubset(
                 {u'Foo': [u'./the/package/__init__.py:1']},

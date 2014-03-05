@@ -144,3 +144,84 @@ class TestI18nbuildCommand(TestCase):
         build_translations(self.tempdir, self.tempdir, 'foo', output=None)
         self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*pofile))
+
+    def test_synced_files_have_no_Domain_header(self):
+        package = (self.tempdir, 'foo/foo')
+        locales = (package, 'locales')
+        locales_de = (locales, 'de/LC_MESSAGES')
+        fshelpers.create_structure({
+                (package, '__init__.py'): '_("Foo")',
+                (locales, 'foo.pot'): fshelpers.asset('empty.pot'),
+                (locales_de, 'foo.po'): fshelpers.asset('empty.po')})
+
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
+
+        self.assertNotIn(
+            'Domain',
+            pohelpers.headers(locales_de, 'foo.po'),
+
+            'The "Domain" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
+
+        self.assertNotIn(
+            'Domain',
+            pohelpers.headers(locales, 'foo.pot'),
+
+            'The "Domain" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
+
+    def test_synced_files_have_no_Language_Code_header(self):
+        package = (self.tempdir, 'foo/foo')
+        locales = (package, 'locales')
+        locales_de = (locales, 'de/LC_MESSAGES')
+        fshelpers.create_structure({
+                (package, '__init__.py'): '_("Foo")',
+                (locales, 'foo.pot'): fshelpers.asset('empty.pot'),
+                (locales_de, 'foo.po'): fshelpers.asset('empty.po')})
+
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
+
+        self.assertNotIn(
+            'Language-Code',
+            pohelpers.headers(locales_de, 'foo.po'),
+
+            'The "Language-Code" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
+
+        self.assertNotIn(
+            'Language-Code',
+            pohelpers.headers(locales, 'foo.pot'),
+
+            'The "Language-Code" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
+
+    def test_synced_files_have_no_Language_Name_header(self):
+        package = (self.tempdir, 'foo/foo')
+        locales = (package, 'locales')
+        locales_de = (locales, 'de/LC_MESSAGES')
+        fshelpers.create_structure({
+                (package, '__init__.py'): '_("Foo")',
+                (locales, 'foo.pot'): fshelpers.asset('empty.pot'),
+                (locales_de, 'foo.po'): fshelpers.asset('empty.po')})
+
+        build_translations(self.tempdir, self.tempdir, 'foo', output=None)
+
+        self.assertNotIn(
+            'Language-Name',
+            pohelpers.headers(locales_de, 'foo.po'),
+
+            'The "Language-Code" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
+
+        self.assertNotIn(
+            'Language-Name',
+            pohelpers.headers(locales, 'foo.pot'),
+
+            'The "Language-Code" header is not necessary for Plone, since the'
+            ' filename contains the domain and it  is often not set'
+            ' correctly, therefore we remove  it.')
