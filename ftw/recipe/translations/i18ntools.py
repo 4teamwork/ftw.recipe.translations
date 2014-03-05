@@ -1,6 +1,7 @@
 from ftw.recipe.translations import discovery
 from ftw.recipe.translations.discovery import discover_package
 from ftw.recipe.translations.utils import chdir
+from ftw.recipe.translations.writer import cleanup_pofile
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter
 from path import path
@@ -49,6 +50,7 @@ def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
             i18ndude.script.rebuild_pot(arguments)
         except SystemExit:
             pass
+        cleanup_pofile(potpath)
 
 
 def sync_package_pofiles(package_dir, languages):
@@ -99,6 +101,7 @@ def sync_pofile_group(base_dir, group, languages):
         i18ndude.script.sync(arguments)
     except SystemExit:
         pass
+    map(cleanup_pofile, pofiles)
 
 
 def create_new_pofile(path, domain):

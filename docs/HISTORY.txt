@@ -5,7 +5,10 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- i18nbuild: Remove "Domain", "Language-Code" and "Language-Name" headers.
+  Plone does not need those headers, it takes informations from the path.
+  The headers are usually not set correctly, so we just remove them.
+  [jone]
 
 
 1.1.0 (2014-03-05)

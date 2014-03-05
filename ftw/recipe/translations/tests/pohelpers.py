@@ -1,6 +1,7 @@
 from StringIO import StringIO
 from ftw.recipe.translations.tests import fshelpers
 from i18ndude.catalog import MessageCatalog
+import re
 
 
 def messages(*pathparts):
@@ -25,6 +26,13 @@ def message_references(*pathparts):
         messages[msg.msgid] = msg.references
     return messages
 
+
+def headers(*pathparts):
+    lines = fshelpers.cat(pathparts).split('\n')
+    headers = filter(re.compile('".*:.*"').match, lines)
+    headers = map(lambda line: line.rstrip('"').lstrip('"'), headers)
+    headers = map(lambda line: map(str.strip, line.split(':', 1)), headers)
+    return dict(headers)
 
 
 def makepo(messages):

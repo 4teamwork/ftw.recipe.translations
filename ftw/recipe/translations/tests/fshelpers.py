@@ -4,7 +4,10 @@ import os
 
 def create_structure(*dirs_and_structure):
     structure = dirs_and_structure[-1]
-    basedir = resolve_to_path(dirs_and_structure[:-1])
+    if len(dirs_and_structure) > 1:
+        basedir = resolve_to_path(dirs_and_structure[:-1])
+    else:
+        basedir = None
 
     for filepath, data in structure.items():
         filepath = resolve_to_path((basedir, filepath))
@@ -15,8 +18,8 @@ def create_structure(*dirs_and_structure):
             file_.write(data)
 
 
-def cat(basedir, relpath):
-    filepath = os.path.join(basedir, relpath)
+def cat(*pathparts):
+    filepath = resolve_to_path(pathparts)
     with open(filepath) as file_:
         return file_.read()
 
