@@ -39,7 +39,7 @@ class Spreadsheet(object):
         rows = len(data) + 1
         worksheet = self._create_worksheet(rows=rows, cols=cols)
 
-        self._update_row(worksheet, 1, headers)
+        changed_cells = self._update_row(worksheet, 1, headers)
 
         for row, item in ProgressLogger('Upload', tuple(enumerate(data))):
             values = []
@@ -51,8 +51,10 @@ class Spreadsheet(object):
                     text = u''
                 values.append(text)
 
-            self._update_row(worksheet, row + 2, values)
+            changed_cells.extend(
+                self._update_row(worksheet, row + 2, values))
 
+        worksheet.update_cells(changed_cells)
         return worksheet.title
 
     def _update_row(self, worksheet, row_num, values):
@@ -69,7 +71,7 @@ class Spreadsheet(object):
                 text = u''
             cells[col].value = text
 
-        worksheet.update_cells(cells)
+        return cells
 
     def download(self, worksheet_title):
         worksheet = self.document.worksheet(worksheet_title)

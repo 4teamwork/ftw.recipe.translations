@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Google Docs Upload: make it faster by doing batch uploads.
+  [jone]
 
 
 1.1.1 (2014-03-05)
