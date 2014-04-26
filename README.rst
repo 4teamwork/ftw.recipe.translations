@@ -59,7 +59,7 @@ package-namespace
 
 .. code:: ini
 
-    [buidlout]
+    [buildout]
     parts = i18n-build
 
     [i18n-build]
