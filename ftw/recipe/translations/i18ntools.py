@@ -24,13 +24,15 @@ def rebuild_package_potfiles(package_root, package_dir, primary_domain):
         if group['manual']:
             manual = os.path.join(package_dir, group['manual'])
 
-        content = ''
+        alternate_merge = ''
         if group['content']:
-            content = os.path.join(package_dir, group['content'])
+            alternate_merge = os.path.join(package_dir, group['content'])
+        if not alternate_merge and group['lawgiver']:
+            alternate_merge = os.path.join(package_dir, group['lawgiver'])
 
         potpath = os.path.join(package_dir, group['pot'])
         rebuild_pot(package_root, package_dir, primary_domain, potpath,
-                    manual, content)
+                    manual, alternate_merge)
 
 
 def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):

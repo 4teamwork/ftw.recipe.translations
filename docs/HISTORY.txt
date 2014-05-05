@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Also merge "-lawgiver.pot"-files, adding ftw.lawgiver support.
+  [jone]
 
 
 1.1.1 (2014-03-05)
