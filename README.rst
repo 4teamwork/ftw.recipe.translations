@@ -155,7 +155,7 @@ If the server in your running this script do not have a web browser (for instanc
 you are running it in a shared computer logged-in through SSH), the browser
 that pops-up is unable to handle the authorization process or if you prefer
 to authorize the application using your own web browser; add the
-`--noauth_local_webserver=True` parameter to the script. Using this option the
+``--noauth_local_webserver=True`` parameter to the script. Using this option the
 script will show a URL which you should open with your browser manualy, and later
 enter the authorization code showed in that browser back in the console.
 
