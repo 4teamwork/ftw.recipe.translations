@@ -33,7 +33,9 @@ def setup_argparser(subparsers):
 
 def upload_command(args, spreadsheet_url):
     print 'Spreadsheet:', spreadsheet_url
-    spreadsheet = Spreadsheet()
+    spreadsheet = Spreadsheet(
+        noauth_local_webserver=args.noauth_local_webserver
+    )
     spreadsheet.connect()
     spreadsheet.open(spreadsheet_url)
     return upload(spreadsheet, args.sources_dir,

@@ -5,7 +5,10 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Masstranslate: add support for Google Oauth --noauth_local_webserver.
+  This option is useful when there is no local browser (e.g. when
+  connected through ssh to a server).
+  [jone]
 
 
 1.1.1 (2014-03-05)
