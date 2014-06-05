@@ -21,9 +21,10 @@ HEADERS = ('package', 'domain', 'id', 'default')
 
 class Spreadsheet(object):
 
-    def __init__(self):
+    def __init__(self, noauth_local_webserver=False):
         self.client = None
         self.document = None
+        self.noauth_local_webserver = noauth_local_webserver
 
     def connect(self):
         self.client = self._setup_client(self._get_credentials())
@@ -112,6 +113,7 @@ class Spreadsheet(object):
                                        scope=SCOPE,
                                        redirect_uri=REDIRECT_URI)
         flags = oauth2client.tools.argparser.parse_args([])
+        flags.noauth_local_webserver = self.noauth_local_webserver
         return oauth2client.tools.run_flow(flow, storage, flags)
 
     def _get_client_secret_json_path(self):

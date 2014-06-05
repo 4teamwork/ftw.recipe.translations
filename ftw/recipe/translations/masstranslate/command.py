@@ -15,6 +15,11 @@ def main(spreadsheet_url, sources_dir):
                         dest='sources_dir',
                         help='Path to the sources directory.',
                         default=sources_dir)
+    parser.add_argument('--noauth_local_webserver',
+                        default=False,
+                        type=bool,
+                        help='Set this option to true if you do not have a browser on the computer you are running this script'
+                        )
 
     subparsers = parser.add_subparsers(help='Actions', dest='action')
     sync.setup_argparser(subparsers)
