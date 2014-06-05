@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.2.0 (2014-06-05)
 ------------------
 
 - Masstranslate: add support for Google Oauth --noauth_local_webserver.
