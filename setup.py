@@ -47,6 +47,10 @@ setup(name='ftw.recipe.translations',
         'setuptools',
         'zc.buildout',
         'zc.recipe.egg',
+
+        # six is required by oauth2client, requiring >=1.4.1, but
+        # the Plone KGS pins it to a very old version.
+        'six>=1.4.1',
         ],
 
       tests_require=tests_require,
