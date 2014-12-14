@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.1 (unreleased)
+1.2.1 (2014-12-14)
 ------------------
 
 - Retain Plone KGS compatibility by pinning oauth2client and six dependencies.
