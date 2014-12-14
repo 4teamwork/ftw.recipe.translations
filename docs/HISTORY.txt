@@ -5,7 +5,8 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Retain Plone KGS compatibility by pinning oauth2client and six dependencies.
+  [jone]
 
 
 1.2.0 (2014-06-05)

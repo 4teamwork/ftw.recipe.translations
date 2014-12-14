@@ -42,15 +42,17 @@ setup(name='ftw.recipe.translations',
         'gspread',
         'i18ndude',
         'keyring',
-        'oauth2client',
         'path.py',
         'setuptools',
         'zc.buildout',
         'zc.recipe.egg',
 
-        # six is required by oauth2client, requiring >=1.4.1, but
-        # the Plone KGS pins it to a very old version.
-        'six>=1.4.1',
+        # For Plone KGS compatibility, we require an older six
+        # version (1.2.0).
+        'six <= 1.2.0',
+        # We also have to pin down oauth2client to the 
+        # version compatible with our old six version.
+        'oauth2client <= 1.3',
         ],
 
       tests_require=tests_require,
