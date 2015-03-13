@@ -47,11 +47,9 @@ setup(name='ftw.recipe.translations',
         'zc.buildout',
         'zc.recipe.egg',
 
-        # For Plone KGS compatibility, we require an older six
-        # version (1.2.0).
-        'six <= 1.2.0',
-        # We also have to pin down oauth2client to the 
-        # version compatible with our old six version.
+        # We require an older oauth2client version since
+        # we probably have an old six version because of
+        # Plone compatibility.
         'oauth2client <= 1.3',
         ],
 
