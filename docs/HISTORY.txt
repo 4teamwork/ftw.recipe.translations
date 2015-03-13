@@ -5,7 +5,10 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove too strict six version pinning.
+  six is pinned in Plone 4.3 KGS and newer.
+  For older Plone versions it should be pinned down, e.g. to `1.4.0`.
+  [jone]
 
 
 1.2.1 (2014-12-14)
