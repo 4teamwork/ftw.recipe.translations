@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.3 (unreleased)
+1.2.3 (2015-04-16)
 ------------------
 
 - Ignore no longer existing translations.
