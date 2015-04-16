@@ -41,6 +41,12 @@ class TestDownload(TestCase):
                             'id': u'label_login',
                             'default': u'Login',
                             'translations': {u'de': u'Anmelden'},
+                            },
+                           {'package': u'foo',
+                            'domain': u'bar',
+                            'id': u'this_was_removed',
+                            'default': u'Yay',
+                            'translations': {u'de': u'Yay'},
                             }]})
         download.download(spreadsheet, self.tempdir,
                           worksheet_name='worksheet',

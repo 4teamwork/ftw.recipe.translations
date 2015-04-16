@@ -10,7 +10,12 @@ def write_catalog(sources_directory, catalog):
     for message in catalog.messages:
         for language, msgstr in message.translations.items():
             pofile = registry.find_pofile_for(message, language)
-            pofile.get(message.msgid).msgstr = msgstr
+            target_message = pofile.get(message.msgid)
+            if target_message is None:
+                print ('Warning: Ignoring "{0}" of "{1}" because it does no'
+                       ' longer exist.'.format(message.msgid, message.domain))
+                continue
+            target_message.msgstr = msgstr
 
     registry.write_pofiles()
 
