@@ -283,8 +283,8 @@ Links
 =====
 
 - github project: https://github.com/4teamwork/ftw.recipe.translations
-- Issue tracker: https://github.com/4teamwork/ftw.recipe.translations/issues
-- Package on pypi: http://pypi.python.org/pypi/ftw.recipe.translations
+- Issues: https://github.com/4teamwork/ftw.recipe.translations/issues
+- Pypi: http://pypi.python.org/pypi/ftw.recipe.translations
 - Continuous integration: https://jenkins.4teamwork.ch/search?q=ftw.recipe.translations
 
 
