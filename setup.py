@@ -47,10 +47,10 @@ setup(name='ftw.recipe.translations',
         'zc.buildout',
         'zc.recipe.egg',
 
-        # We require an older oauth2client version since
-        # we probably have an old six version because of
-        # Plone compatibility.
-        'oauth2client <= 1.3',
+        # oauth2client 1.4.12 is the first version with acceptable dependency
+        # declaration. So we take at least this one. NOTE: This may breake
+        # compatibility with Plone 4.3.2 and older.
+        'oauth2client <= 1.4.12',
         ],
 
       tests_require=tests_require,

@@ -47,9 +47,20 @@ For installation simply use the zc.buildout recipe ``ftw.recipe.translations:pac
 
 ``ftw.recipe.translations`` requires the ``oauth2client`` package, which requires
 ``six``.
-Since Plone 4.3 requires an older ``six`` version
-(``1.2.0``, but ``1.4.0`` would work too) we use an older,
-compatible ``oauth2client`` version.
+
+*Targeting Plone >= 4.3.4:*
+
+Pin ``six`` to ``1.8.0`` as Plone 4.3.6 also does.
+
+*Targeting Plone 4.3 - 4.3.2:*
+
+Since Plone <= 4.3.2 requires an older ``six`` version
+(``1.2.0``, but ``1.4.0`` would work too) we have to use an older,
+compatible ``oauth2client`` version. For this purpose please install ``ftw.recipe.translations 1.2.3``, this forces
+you to install an older oauth2client version.
+
+*Targeting Plone < 4.3:*
+
 If you install ``ftw.recipe.translations`` with Plone 4.2 or older, there is no
 version pinning and you need to pin down ``six``.
 We propose to use ``six = 1.4.0``, which is also compatible with ``lovely.buildouthttp``:
