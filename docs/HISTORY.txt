@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.4 (unreleased)
+1.2.4 (2015-11-17)
 ------------------
 
 - Update oauth2client version constraint in order to improve plone compatibility.
