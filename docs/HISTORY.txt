@@ -5,7 +5,10 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Require oauth2client (and six) dependencies only when installing
+  the masstranslate recipe.
+  This reduces dependency problems with six.
+  [jone]
 
 
 1.2.4 (2015-11-17)
