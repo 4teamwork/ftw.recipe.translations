@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.5 (unreleased)
+1.2.5 (2015-11-24)
 ------------------
 
 - Require oauth2client (and six) dependencies only when installing
