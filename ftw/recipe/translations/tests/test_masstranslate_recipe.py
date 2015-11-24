@@ -1,4 +1,4 @@
-from ftw.recipe.translations.testing import RECIPE_FIXTURE
+from ftw.recipe.translations.testing import MASSTRANSLATE_RECIPE_FIXTURE
 from unittest2 import TestCase
 import os
 
@@ -13,7 +13,7 @@ DEFAULT_BUILDOUT_CONFIG = '\n'.join((
 
 class TestRecipe(TestCase):
 
-    layer = RECIPE_FIXTURE
+    layer = MASSTRANSLATE_RECIPE_FIXTURE
 
     def setUp(self):
         self.__dict__.update(self.layer['buildout'])

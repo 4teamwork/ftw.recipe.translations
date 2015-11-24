@@ -5,7 +5,7 @@ import tempfile
 import zc.buildout.testing
 
 
-def resolve_dependencies(pkg_name, result=None):
+def resolve_dependencies(pkg_name, result=None, extras=()):
     if result is None:
         result = set()
 
@@ -13,13 +13,14 @@ def resolve_dependencies(pkg_name, result=None):
         return result
 
     result.add(pkg_name)
-    for pkg in get_distribution(pkg_name).requires():
+    for pkg in get_distribution(pkg_name).requires(extras):
         resolve_dependencies(pkg.project_name, result)
 
     return result
 
 
 class RecipeLayer(Layer):
+    extras = ()
 
     @property
     def globs(self):
@@ -30,7 +31,8 @@ class RecipeLayer(Layer):
 
     def testSetUp(self):
         zc.buildout.testing.buildoutSetUp(self)
-        for pkgname in resolve_dependencies('ftw.recipe.translations'):
+        for pkgname in resolve_dependencies('ftw.recipe.translations',
+                                            extras=self.extras):
             zc.buildout.testing.install_develop(pkgname, self)
 
     def testTearDown(self):
@@ -38,6 +40,13 @@ class RecipeLayer(Layer):
 
 
 RECIPE_FIXTURE = RecipeLayer()
+
+
+class MasstranslateRecipeLayer(RecipeLayer):
+    extras = ('masstranslate',)
+
+
+MASSTRANSLATE_RECIPE_FIXTURE = MasstranslateRecipeLayer()
 
 
 class TempDirectory(Layer):

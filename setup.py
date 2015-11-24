@@ -4,12 +4,21 @@ from setuptools import setup, find_packages
 
 version = '1.2.5.dev0'
 
+extras = {
+    'tests': [
+        'mocker',
+        'plone.testing',
+        'unittest2',
+    ],
 
-tests_require = [
-    'mocker',
-    'plone.testing',
-    'unittest2',
-]
+    'masstranslate': [
+        'gspread',
+        'keyring',
+        'oauth2client',
+    ]
+}
+
+extras['tests'] += extras['masstranslate']
 
 
 setup(name='ftw.recipe.translations',
@@ -39,22 +48,15 @@ setup(name='ftw.recipe.translations',
 
       install_requires=[
           'argparse',
-          'gspread',
           'i18ndude',
-          'keyring',
           'path.py',
           'setuptools',
           'zc.buildout',
           'zc.recipe.egg',
-
-        # oauth2client 1.4.12 is the first version with acceptable dependency
-          # declaration. So we take at least this one. NOTE: This may breake
-          # compatibility with Plone 4.3.2 and older.
-        'oauth2client <= 1.4.12',
       ],
 
-      tests_require=tests_require,
-      extras_require=dict(tests=tests_require),
+      tests_require=extras['tests'],
+      extras_require=extras,
 
       entry_points = {
           'zc.buildout': [
@@ -63,5 +65,4 @@ setup(name='ftw.recipe.translations',
           'console_scripts': [
               'masstranslate = ftw.recipe.translations.masstranslate.command:main',
               'i18n-build = ftw.recipe.translations.i18nbuild.command:main']
-      },
-)
+      })

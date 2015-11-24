@@ -28,7 +28,7 @@ class Recipe(Egg):
         self._add_script_argument('spreadsheet')
 
         super(Recipe, self).__init__(buildout, name, options)
-        self.default_eggs = 'ftw.recipe.translations'
+        self.default_eggs = 'ftw.recipe.translations [masstranslate]'
 
     def _extend_initialization(self, code):
         self.options['initialization'] = '\n'.join((
