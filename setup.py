@@ -14,7 +14,7 @@ extras = {
     'masstranslate': [
         'gspread',
         'keyring',
-        'oauth2client',
+        'oauth2client < 2a',
     ]
 }
 
