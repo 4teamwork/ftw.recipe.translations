@@ -124,7 +124,7 @@ Using the buildout recipe generates a script ``bin/masstranslate``:
     parts = translations
 
     [translations]
-    recipe = ftw.recipe.translations
+    recipe = ftw.recipe.translations [masstranslate]
     spreadsheet = https://docs.google.com/spreadsheet/ccc?key=0AgoYEZSDYCg1dEZvVGFTRUc3RDd6123DAFDER
 
 
