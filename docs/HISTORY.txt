@@ -5,6 +5,8 @@ Changelog
 1.2.6 (unreleased)
 ------------------
 
+- Support additional locales directories in subpackages.  [jone]
+
 - Support newest path.py version 10.0. [jone]
 
 

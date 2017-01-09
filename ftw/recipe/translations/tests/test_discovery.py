@@ -160,6 +160,46 @@ class TestDiscovery(TestCase):
 
             discovery.discover(self.tempdir))
 
+    def test_second_locales_directory_in_subpackage(self):
+        fshelpers.create_structure(self.tempdir, {
+                u'foo/bar/locales/en/LC_MESSAGES/foo.po': u'',
+                u'foo/bar/locales/foo.pot': u'',
+                u'foo/bar/locales/bar.pot': u'',
+                u'foo/bar/locales/foo-content.pot': u'',
+                u'foo/bar/subpackage/locales/bar.pot': u'',
+                u'foo/bar/subpackage/locales/foo-content.pot': u'',
+                })
+
+        self.assertItemsEqual(
+            [{u'domain': u'foo',
+              u'package': u'foo',
+              u'locales': u'bar/locales',
+              u'pot': u'bar/locales/foo.pot',
+              u'manual': None,
+              u'content': u'bar/locales/foo-content.pot',
+              u'languages': {
+                        u'en': u'bar/locales/en/LC_MESSAGES/foo.po'}},
+
+             {u'domain': u'bar',
+              u'package': u'foo',
+              u'locales': u'bar/locales',
+              u'pot': u'bar/locales/bar.pot',
+              u'manual': None,
+              u'content': None,
+              u'languages': {},
+              },
+
+             {u'domain': u'bar',
+              u'package': u'foo',
+              u'locales': u'bar/subpackage/locales',
+              u'pot': u'bar/subpackage/locales/bar.pot',
+              u'manual': None,
+              u'content': None,
+              u'languages': {},
+              }],
+
+            discovery.discover(self.tempdir))
+
     def test_i18n_directory_is_not_supported(self):
         fshelpers.create_structure(self.tempdir, {
                 u'foo/foo/i18n/foo-de.po': u'',
