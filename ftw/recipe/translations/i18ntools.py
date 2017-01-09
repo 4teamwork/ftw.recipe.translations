@@ -4,7 +4,7 @@ from ftw.recipe.translations.utils import chdir
 from ftw.recipe.translations.writer import cleanup_pofile
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter
-from path import path
+from path import Path
 import i18ndude.script
 import os.path
 
@@ -35,7 +35,7 @@ def rebuild_package_potfiles(package_root, package_dir, primary_domain):
 
 def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
     print 'Rebuilding', potpath
-    relative_path = path(package_dir).relpath(package_root)
+    relative_path = Path(package_dir).relpath(package_root)
     if relative_path != '.':
         relative_path = os.path.join('.', relative_path)
     arguments = Arguments({'pot_fn': potpath,
