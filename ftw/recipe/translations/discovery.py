@@ -1,5 +1,5 @@
 from collections import defaultdict
-from path import path
+from path import Path
 import os.path
 import re
 
@@ -60,7 +60,7 @@ def discover(sources_directory):
 
 
 def _find_po_files(package_dir, package_name):
-    for filepath in path(package_dir).walkfiles(u'*.po'):
+    for filepath in Path(package_dir).walkfiles(u'*.po'):
         if not re.match('.*locales/[^/]*/LC_MESSAGES/[^/]*\.po$', filepath):
             continue
         rel_path = filepath.relpath(package_dir)
@@ -74,7 +74,7 @@ def _find_po_files(package_dir, package_name):
 
 
 def _find_pot_files(package_dir, package_name):
-    for filepath in path(package_dir).walkfiles(u'*.pot'):
+    for filepath in Path(package_dir).walkfiles(u'*.pot'):
         if not re.match('.*locales/.*\.pot$', filepath):
             continue
         if re.match('/.*-manual\.pot$', filepath):
@@ -85,18 +85,18 @@ def _find_pot_files(package_dir, package_name):
         manual = None
         manual_path = re.sub('\.pot$', '-manual.pot', filepath)
         if os.path.exists(manual_path):
-            manual = unicode(path(manual_path).relpath(package_dir))
+            manual = unicode(Path(manual_path).relpath(package_dir))
 
         content = None
         content_path = re.sub('\.pot$', '-content.pot', filepath)
         if os.path.exists(content_path):
-            content = unicode(path(content_path).relpath(package_dir))
+            content = unicode(Path(content_path).relpath(package_dir))
 
         yield {u'package': package_name,
                u'domain': unicode(filepath.basename().splitext()[0]),
-               u'locales': os.path.dirname(path(filepath)
+               u'locales': os.path.dirname(Path(filepath)
                                            .relpath(package_dir)),
-               u'relative_path': path(filepath).relpath(package_dir),
+               u'relative_path': Path(filepath).relpath(package_dir),
                u'absolute_path': filepath,
                u'manual': manual,
                u'content': content}

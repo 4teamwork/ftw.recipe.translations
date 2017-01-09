@@ -1,4 +1,4 @@
-from path import path
+from path import Path
 import os
 
 
@@ -33,7 +33,7 @@ def asset(name):
 
 
 def files(directory):
-    for filepath in path(directory).walkfiles():
+    for filepath in Path(directory).walkfiles():
         yield str(filepath.relpath(directory))
 
 
