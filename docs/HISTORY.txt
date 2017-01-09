@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.6 (unreleased)
+1.2.6 (2017-01-09)
 ------------------
 
 - Support additional locales directories in subpackages.  [jone]
