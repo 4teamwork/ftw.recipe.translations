@@ -49,7 +49,7 @@ setup(name='ftw.recipe.translations',
       install_requires=[
           'argparse',
           'i18ndude',
-          'path.py',
+          'path.py >7,<12',
           'setuptools',
           'zc.buildout',
           'zc.recipe.egg',

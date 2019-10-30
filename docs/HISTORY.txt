@@ -5,7 +5,7 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Declare path.py version constraint (>7,<12). [jone]
 
 
 1.2.6 (2017-01-09)
