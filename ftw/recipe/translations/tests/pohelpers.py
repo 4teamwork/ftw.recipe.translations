@@ -1,6 +1,8 @@
-from StringIO import StringIO
 from ftw.recipe.translations.tests import fshelpers
 from i18ndude.catalog import MessageCatalog
+from six.moves import filter
+from six.moves import map
+from StringIO import StringIO
 import re
 
 
@@ -29,9 +31,9 @@ def message_references(*pathparts):
 
 def headers(*pathparts):
     lines = fshelpers.cat(pathparts).split('\n')
-    headers = filter(re.compile('".*:.*"').match, lines)
-    headers = map(lambda line: line.rstrip('"').lstrip('"'), headers)
-    headers = map(lambda line: map(str.strip, line.split(':', 1)), headers)
+    headers = list(filter(re.compile('".*:.*"').match, lines))
+    headers = [line.rstrip('"').lstrip('"') for line in headers]
+    headers = [list(map(str.strip, line.split(':', 1))) for line in headers]
     return dict(headers)
 
 

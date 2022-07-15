@@ -2,6 +2,7 @@ from collections import defaultdict
 from path import Path
 import os.path
 import re
+import six
 
 
 def discover_package(package_dir, package_name=None):
@@ -16,7 +17,7 @@ def discover_package(package_dir, package_name=None):
 
     for match in _find_po_files(package_dir, package_name):
         group = items[(match[u'locales'], match['domain'], match['package'])]
-        group[u'languages'][match[u'language']] = unicode(
+        group[u'languages'][match[u'language']] = six.text_type(
             match[u'relative_path'])
 
         group[u'locales'] = match[u'locales']
@@ -25,7 +26,7 @@ def discover_package(package_dir, package_name=None):
 
     for match in _find_pot_files(package_dir, package_name):
         group = items[(match[u'locales'], match['domain'], match['package'])]
-        group[u'pot'] = unicode(match[u'relative_path'])
+        group[u'pot'] = six.text_type(match[u'relative_path'])
         group[u'manual'] = match[u'manual']
         group[u'content'] = match[u'content']
 
@@ -33,7 +34,7 @@ def discover_package(package_dir, package_name=None):
         group[u'domain'] = match['domain']
         group[u'package'] = match['package']
 
-    return items.values()
+    return list(items.values())
 
 
 def discover(sources_directory):
@@ -52,7 +53,7 @@ def _find_po_files(package_dir, package_name):
         rel_path = filepath.relpath(package_dir)
         locales_path = '/'.join(rel_path.split('/')[:-3])
         yield {u'package': package_name,
-               u'domain': unicode(rel_path.basename().splitext()[0]),
+               u'domain': six.text_type(rel_path.basename().splitext()[0]),
                u'locales': locales_path,
                u'language': rel_path.split(u'/')[-3],
                u'relative_path': rel_path,
@@ -71,15 +72,15 @@ def _find_pot_files(package_dir, package_name):
         manual = None
         manual_path = re.sub('\.pot$', '-manual.pot', filepath)
         if os.path.exists(manual_path):
-            manual = unicode(Path(manual_path).relpath(package_dir))
+            manual = six.text_type(Path(manual_path).relpath(package_dir))
 
         content = None
         content_path = re.sub('\.pot$', '-content.pot', filepath)
         if os.path.exists(content_path):
-            content = unicode(Path(content_path).relpath(package_dir))
+            content = six.text_type(Path(content_path).relpath(package_dir))
 
         yield {u'package': package_name,
-               u'domain': unicode(filepath.basename().splitext()[0]),
+               u'domain': six.text_type(filepath.basename().splitext()[0]),
                u'locales': os.path.dirname(Path(filepath)
                                            .relpath(package_dir)),
                u'relative_path': Path(filepath).relpath(package_dir),

@@ -1,15 +1,20 @@
+from __future__ import print_function
 from datetime import datetime
 from ftw.recipe.translations.progresslogger import ProgressLogger
 from gspread import Client
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.keyring_storage import Storage
 from operator import attrgetter
+from six.moves import filter
+from six.moves import input
+from six.moves import map
 import httplib2
 import itertools
 import oauth2client.tools
 import os
 import os.path
 import re
+import six
 
 
 SCOPE = 'http://spreadsheets.google.com/feeds/'
@@ -34,7 +39,7 @@ class Spreadsheet(object):
 
     def upload(self, data, print_status=True):
         translation_headers = tuple(set(itertools.chain(*[
-                        item.get('translations').keys() for item in data])))
+                        list(item.get('translations').keys()) for item in data])))
         headers = HEADERS + translation_headers
         cols = len(headers)
         rows = len(data) + 1
@@ -85,15 +90,13 @@ class Spreadsheet(object):
         return items
 
     def worksheets(self):
-        names = filter(WORKSHEET_PREFIX_XPR.match,
-                       map(attrgetter('title'), self.document.worksheets()))
+        names = list(filter(WORKSHEET_PREFIX_XPR.match,
+                       list(map(attrgetter('title'), self.document.worksheets()))))
         return names
 
     def _create_worksheet(self, rows, cols):
-        prefixes = map(int, map(
-                lambda name: WORKSHEET_PREFIX_XPR.match(name).group(1),
-                self.worksheets()))
-        next_prefix = unicode(max(prefixes or [0]) + 1).rjust(3, '0')
+        prefixes = list(map(int, [WORKSHEET_PREFIX_XPR.match(name).group(1) for name in self.worksheets()]))
+        next_prefix = six.text_type(max(prefixes or [0]) + 1).rjust(3, '0')
         name = ': '.join((next_prefix, datetime.now().strftime('%Y-%m-%d')))
         return self.document.add_worksheet(name, rows=rows, cols=cols)
 
@@ -121,18 +124,18 @@ class Spreadsheet(object):
         if os.path.exists(path):
             return path
 
-        print 'The clients scretes file for the Google Application' + \
-            ' is missing at ', path
-        print ''
-        print 'Please copy your company application secrets file to this path.'
-        print 'If you or your company has not created an application yet, ', \
+        print('The clients scretes file for the Google Application' + \
+            ' is missing at ', path)
+        print('')
+        print('Please copy your company application secrets file to this path.')
+        print('If you or your company has not created an application yet, ', \
             'follow the instructions at ', \
             'https://github.com/4teamwork/ftw.recipe.translations/wiki/' + \
-            'Creating-a-Google-OAuth-Application'
-        print ''
+            'Creating-a-Google-OAuth-Application')
+        print('')
         while not os.path.exists(path):
-            print 'ERROR:', path, 'missing'
-            raw_input('Press any key to retry')
+            print('ERROR:', path, 'missing')
+            input('Press any key to retry')
         return path
 
     def _setup_client(self, credentials):

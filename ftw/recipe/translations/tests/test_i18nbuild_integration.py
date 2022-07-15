@@ -1,3 +1,4 @@
+from __future__ import print_function
 from ftw.recipe.translations.testing import RECIPE_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
@@ -89,7 +90,7 @@ class TestI18nbuildCommandIntegration(TestCase):
             lines = fshelpers.cat(locales_de, 'package.po').split('\n')
             self.assertEquals(
                 [],
-                filter(lambda line: line.startswith('"Domain'), lines),
+                [line for line in lines if line.startswith('"Domain')],
                 '.po-files should not contain Domain-headers, because'
                 ' they are not relevant and often not set correctly.')
 
@@ -100,7 +101,7 @@ class TestI18nbuildCommandIntegration(TestCase):
                 'Path comments are wrong.')
 
         except:
-            print '-' * 30
-            print output
-            print '-' * 30
+            print('-' * 30)
+            print(output)
+            print('-' * 30)
             raise

@@ -85,8 +85,7 @@ class TestWriter(TestCase):
 
         lines = pofile.split('\n')
         self.assertEquals(['"Language-Team: LANGUAGE <LL@li.org>\\n"'],
-                          filter(lambda line: line.startswith('"Lang'),
-                                 lines))
+                          [line for line in lines if line.startswith('"Lang')])
 
     def test_removes_domain(self):
         # In Plone, the domain is defined through the basename of the
@@ -104,5 +103,4 @@ class TestWriter(TestCase):
 
         lines = pofile.split('\n')
         self.assertEquals([],
-                          filter(lambda line: line.startswith('"Domain'),
-                                 lines))
+                          [line for line in lines if line.startswith('"Domain')])

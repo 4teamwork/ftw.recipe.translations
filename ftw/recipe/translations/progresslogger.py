@@ -1,3 +1,4 @@
+from __future__ import print_function
 from time import time
 
 
@@ -10,7 +11,7 @@ class ProgressLogger(object):
         self.message = message
         self.iterable = iterable
 
-        if isinstance(iterable, (int, long, float)):
+        if isinstance(iterable, (int, int, float)):
             self.length = iterable
         else:
             self.length = len(iterable)
@@ -20,18 +21,18 @@ class ProgressLogger(object):
         self._counter = 0
 
     def __enter__(self):
-        print 'Starting %s' % self.message
+        print('Starting %s' % self.message)
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
         if not exc_type:
-            print 'Finished %s' % self.message
+            print('Finished %s' % self.message)
 
         else:
-            print 'FAILED %s (%s: %s)' % (
+            print('FAILED %s (%s: %s)' % (
                 self.message,
                 str(exc_type.__name__),
-                str(exc_value))
+                str(exc_value)))
 
     def __call__(self):
         self._counter += 1
@@ -39,11 +40,11 @@ class ProgressLogger(object):
             return
 
         percent = int(self._counter * 100.0 / self.length)
-        print '%s of %s (%s%%): %s' % (
+        print('%s of %s (%s%%): %s' % (
             self._counter,
             self.length,
             percent,
-            self.message)
+            self.message))
 
     def __iter__(self):
         with self as step:

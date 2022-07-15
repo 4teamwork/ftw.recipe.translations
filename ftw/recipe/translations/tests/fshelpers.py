@@ -1,4 +1,5 @@
 from path import Path
+from six.moves import map
 import os
 
 
@@ -39,8 +40,8 @@ def files(directory):
 
 def resolve_to_path(pathparts):
     if isinstance(pathparts, (list, tuple)):
-        return os.path.join(*map(resolve_to_path, pathparts))
-    elif isinstance(pathparts, unicode):
+        return os.path.join(*list(map(resolve_to_path, pathparts)))
+    elif isinstance(pathparts, str):
         return pathparts.encode('utf-8')
     else:
         return pathparts
