@@ -2,7 +2,7 @@ import os
 from setuptools import setup, find_packages
 
 
-version = '1.2.7.dev0'
+version = '2.0.0.dev0'
 
 extras = {
     'tests': [
@@ -23,10 +23,10 @@ extras['tests'] += extras['masstranslate']
 
 setup(name='ftw.recipe.translations',
       version=version,
-      description='Mass export / import of translations into' + \
+      description='Mass export / import of translations into' +
       ' Google Docs Spreadsheets',
 
-      long_description=open('README.rst').read() + '\n' + \
+      long_description=open('README.rst').read() + '\n' +
       open(os.path.join('docs', 'HISTORY.txt')).read(),
 
       classifiers=[
@@ -58,7 +58,7 @@ setup(name='ftw.recipe.translations',
       tests_require=extras['tests'],
       extras_require=extras,
 
-      entry_points = {
+      entry_points={
           'zc.buildout': [
               'default = ftw.recipe.translations.masstranslate.recipe:Recipe',
               'package = ftw.recipe.translations.i18nbuild.recipe:Recipe'],
