@@ -3,7 +3,7 @@ from ftw.recipe.translations.google import Spreadsheet
 from ftw.recipe.translations.loader import load_translation_catalog
 from ftw.recipe.translations.utils import capture_streams
 from six.moves import filter
-from StringIO import StringIO
+from io import BytesIO
 import sys
 
 
@@ -56,14 +56,14 @@ def upload(spreadsheet, sources_directory, languages=None,
     if len(include_languages) == 0:
         include_languages = None
 
-    with capture_streams(stdout=output or StringIO()):
+    with capture_streams(stdout=output or BytesIO()):
         print('Loading translations')
         catalog = load_translation_catalog(sources_directory)
 
         data = catalog.get_message_dicts(include_languages)
         if filter_translated:
             data = list(filter(translated_languages_filterer(languages or None),
-                          data))
+                               data))
 
         data.sort(key=lambda item: (item.get('package'),
                                     item.get('domain'),

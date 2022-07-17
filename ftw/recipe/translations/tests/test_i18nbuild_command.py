@@ -1,8 +1,8 @@
-from StringIO import StringIO
 from ftw.recipe.translations.i18nbuild.command import build_translations
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
+from io import BytesIO
 from unittest2 import TestCase
 import os.path
 
@@ -75,7 +75,7 @@ class TestI18nbuildCommand(TestCase):
         pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
         self.assertEquals({}, pohelpers.messages(*pofile))
 
-        output = StringIO()
+        output = BytesIO()
         build_translations(self.tempdir, self.tempdir, 'foo', output=output)
 
         self.assertEquals({'Foo': ''}, pohelpers.messages(*pofile))

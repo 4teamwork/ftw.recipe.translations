@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import BytesIO
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
@@ -94,7 +94,7 @@ class TestRebuildPotfiles(TestCase):
         fshelpers.create_structure(self.tempdir, {
                 'foo/locales/foo.pot': fshelpers.asset('empty.pot')})
         try:
-            with capture_streams(stderr=StringIO()):
+            with capture_streams(stderr=BytesIO()):
                 rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         except SystemExit:
             assert False, 'SystemExit leaked from i18ndude while rebuilding pot-files!'

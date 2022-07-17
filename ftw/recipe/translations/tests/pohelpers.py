@@ -1,8 +1,8 @@
 from ftw.recipe.translations.tests import fshelpers
 from i18ndude.catalog import MessageCatalog
+from io import BytesIO
 from six.moves import filter
 from six.moves import map
-from StringIO import StringIO
 import re
 
 
@@ -38,7 +38,7 @@ def headers(*pathparts):
 
 
 def makepo(messages):
-    data = StringIO()
+    data = BytesIO()
     data.write(fshelpers.asset('empty.po'))
 
     for msgid, value in sorted(messages.items()):

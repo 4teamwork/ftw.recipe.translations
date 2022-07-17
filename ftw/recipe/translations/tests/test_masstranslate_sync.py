@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import BytesIO
 from ftw.recipe.translations.masstranslate.sync import synchronize
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
@@ -60,7 +60,7 @@ class TestSyncCommand(TestCase):
         pofile = (self.tempdir, 'foo/foo/locales/de/LC_MESSAGES/foo.po')
         self.assertEquals({}, pohelpers.messages(*pofile))
 
-        output = StringIO()
+        output = BytesIO()
         synchronize(self.tempdir, output=output)
 
         self.assertEquals({'Foo': ''}, pohelpers.messages(*pofile))
