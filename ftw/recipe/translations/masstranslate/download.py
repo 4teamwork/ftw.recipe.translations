@@ -1,8 +1,6 @@
-from __future__ import print_function
 from ftw.recipe.translations.google import Spreadsheet
 from ftw.recipe.translations.loader import load_translation_catalog
 from ftw.recipe.translations.writer import write_catalog
-from six.moves import input
 import sys
 
 
@@ -57,7 +55,6 @@ def select_worksheet(spreadsheet, stdout=sys.stdout):
     for num, name in enumerate(names, start=1):
         print('[%i] %s' % (num, name), file=stdout)
     print('', file=stdout)
-
     while True:
         try:
             num = int(input('Please enter the spreadsheet number: '))
@@ -76,19 +73,19 @@ def select_languages(data, stdout=sys.stdout):
         print('- %s' % lang, file=stdout)
 
     print('', file=stdout)
-    print('Enter one language code at a time, finish ' + \
-        'selection with an empty enter.', file=stdout)
+    print('Enter one language code at a time, finish ' +
+          'selection with an empty enter.', file=stdout)
 
     languages = []
     while True:
-        input = input('Language: ').strip()
-        if not input and len(languages) == 0:
+        user_input = input('Language: ').strip()
+        if not user_input and len(languages) == 0:
             print('Please select at least one language.', file=stdout)
-        elif not input:
+        elif not user_input:
             break
-        elif input in available_languages:
-            languages.append(input)
+        elif user_input in available_languages:
+            languages.append(user_input)
         else:
-            print('The language "%s" cannot be selected.' % input, file=stdout)
+            print('The language "%s" cannot be selected.' % user_input, file=stdout)
 
     return languages
