@@ -2,10 +2,10 @@ Changelog
 =========
 
 
-1.2.7 (unreleased)
+2.0.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Support Plone 6 and Python 3.9 only. [mathias.leimgruber]
 
 
 1.2.6 (2017-01-09)

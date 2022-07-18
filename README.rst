@@ -12,6 +12,12 @@
 .. contents:: Table of Contents
 
 
+Compatibility
+=============
+
+Only Python 3.9 (probably 3.7 and 3.8) is supported.
+
+
 bin/i18n-build
 ==============
 

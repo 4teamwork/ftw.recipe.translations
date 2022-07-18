@@ -29,6 +29,8 @@ setup(name='ftw.recipe.translations',
 
       classifiers=[
           'Framework :: Plone',
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 3.9',
           'Intended Audience :: Developers',
           'Topic :: Software Development :: Libraries :: Python Modules',
       ],
