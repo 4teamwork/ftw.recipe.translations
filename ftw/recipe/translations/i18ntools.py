@@ -5,9 +5,10 @@ from ftw.recipe.translations.writer import cleanup_pofile
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter
 from path import Path
+from six.moves import map
 import i18ndude.script
 import os.path
-
+import sys
 
 class Arguments(dict):
     def __init__(self, *args, **kwargs):
@@ -34,7 +35,8 @@ def rebuild_package_potfiles(package_root, package_dir, primary_domain):
 
 
 def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
-    print 'Rebuilding', potpath
+    print('Rebuilding ')
+    print(potpath)
     relative_path = Path(package_dir).relpath(package_root)
     if relative_path != '.':
         relative_path = os.path.join('.', relative_path)
@@ -58,7 +60,7 @@ def sync_package_pofiles(package_dir, languages):
         if not group['pot']:
             continue
 
-        langs = group['languages'].keys()
+        langs = list(group['languages'].keys())
         if languages:
             langs += languages
         sync_pofile_group(package_dir, group, langs)
@@ -95,13 +97,13 @@ def sync_pofile_group(base_dir, group, languages):
                            group['package'] or '',
                            group['pot'])
 
-    arguments = Arguments({'pot_fn': potpath,
+    arguments = Arguments({'pot_fn': potpath.encode('utf-8'),
                            'files': pofiles})
     try:
         i18ndude.script.sync(arguments)
     except SystemExit:
         pass
-    map(cleanup_pofile, pofiles)
+    list(map(cleanup_pofile, pofiles))
 
 
 def create_new_pofile(path, domain):

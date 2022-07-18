@@ -2,7 +2,7 @@ from ftw.recipe.translations.inflator import rebuild_pot
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
-from unittest2 import TestCase
+from unittest import TestCase
 import os.path
 
 

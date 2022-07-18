@@ -50,15 +50,14 @@ def download(spreadsheet, sources_directory, worksheet_name=None,
 
 
 def select_worksheet(spreadsheet, stdout=sys.stdout):
-    print >> stdout, 'Please select a worksheet to download:'
+    print('Please select a worksheet to download:', file=stdout)
     names = spreadsheet.worksheets()
     for num, name in enumerate(names, start=1):
-        print >> stdout, '[%i] %s' % (num, name)
-    print >> stdout, ''
-
+        print('[%i] %s' % (num, name), file=stdout)
+    print('', file=stdout)
     while True:
         try:
-            num = int(raw_input('Please enter the spreadsheet number: '))
+            num = int(input('Please enter the spreadsheet number: '))
             return names[num - 1]
         except (ValueError, IndexError):
             continue
@@ -67,26 +66,26 @@ def select_worksheet(spreadsheet, stdout=sys.stdout):
 def select_languages(data, stdout=sys.stdout):
     available_languages = set()
     for item in data:
-        available_languages.update(item.get('translations', {}).keys())
+        available_languages.update(list(item.get('translations', {}).keys()))
 
-    print >> stdout, 'Please select the languages to synchronize:'
+    print('Please select the languages to synchronize:', file=stdout)
     for lang in sorted(available_languages):
-        print >> stdout, '- %s' % lang
+        print('- %s' % lang, file=stdout)
 
-    print >> stdout, ''
-    print >> stdout, 'Enter one language code at a time, finish ' + \
-        'selection with an empty enter.'
+    print('', file=stdout)
+    print('Enter one language code at a time, finish ' +
+          'selection with an empty enter.', file=stdout)
 
     languages = []
     while True:
-        input = raw_input('Language: ').strip()
-        if not input and len(languages) == 0:
-            print >> stdout, 'Please select at least one language.'
-        elif not input:
+        user_input = input('Language: ').strip()
+        if not user_input and len(languages) == 0:
+            print('Please select at least one language.', file=stdout)
+        elif not user_input:
             break
-        elif input in available_languages:
-            languages.append(input)
+        elif user_input in available_languages:
+            languages.append(user_input)
         else:
-            print >> stdout, 'The language "%s" cannot be selected.' % input
+            print('The language "%s" cannot be selected.' % user_input, file=stdout)
 
     return languages

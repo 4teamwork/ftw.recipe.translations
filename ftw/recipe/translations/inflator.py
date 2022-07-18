@@ -18,8 +18,7 @@ def rebuild_pot(potfile, package_dir, i18n_domain):
             continue
 
         content_creation_files.extend(
-            map(lambda name: os.path.join(dirpath, name),
-                filter(lambda name: name.endswith('.json'), filenames)))
+            [os.path.join(dirpath, name) for name in [name for name in filenames if name.endswith('.json')]])
 
     msgids = set()
     for jsonpath in content_creation_files:
@@ -50,7 +49,7 @@ def get_translated_values(data, translatable_key_expr):
             for result in get_translated_values(value, translatable_key_expr):
                 yield result
 
-    elif hasattr(data, '__iter__'):
+    elif isinstance(data, list) or isinstance(data, tuple) or isinstance(data, set):
         for value in data:
             for result in get_translated_values(value, translatable_key_expr):
                 yield result

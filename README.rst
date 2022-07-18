@@ -12,6 +12,14 @@
 .. contents:: Table of Contents
 
 
+Compatibility
+=============
+
+Only Python 3.9 (probably 3.7 and 3.8) is supported.
+
+Use Version 1.x for Python 2.7 support.
+
+
 bin/i18n-build
 ==============
 
@@ -67,6 +75,30 @@ package-namespace
     package-name = MyPackage
     i18n-domain = mypackage
     package-namespace = my.package
+
+
+Development and testing
+-----------------------
+
+Even though the recipe is meant for buildout, we offer to options to install, develop and test the package.
+
+
+Option 1 - Using buildout
+
+.. code:: sh
+
+    $ ./bootstrap.sh development.cfg    
+    $ ./bin/test
+
+
+Option 2 - Using Makefile
+
+.. code:: sh
+
+    $ make install
+    $ make test
+
+
 
 
 Usage

@@ -1,10 +1,10 @@
-from StringIO import StringIO
 from ftw.recipe.translations import inflator
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.i18ntools import sync_package_pofiles
 from ftw.recipe.translations.utils import capture_streams
 from ftw.recipe.translations.utils import find_package_directory
 from ftw.recipe.translations.utils import version
+from io import StringIO
 import argparse
 import os
 import sys

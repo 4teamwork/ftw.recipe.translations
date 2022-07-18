@@ -1,7 +1,7 @@
-from StringIO import StringIO
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.i18ntools import sync_pofiles
 from ftw.recipe.translations.utils import capture_streams
+from io import StringIO
 import os.path
 import sys
 
