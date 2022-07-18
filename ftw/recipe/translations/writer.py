@@ -12,8 +12,8 @@ def write_catalog(sources_directory, catalog):
             pofile = registry.find_pofile_for(message, language)
             target_message = pofile.get(message.msgid)
             if target_message is None:
-                print ('Warning: Ignoring "{0}" of "{1}" because it does no'
-                       ' longer exist.'.format(message.msgid, message.domain))
+                print(('Warning: Ignoring "{0}" of "{1}" because it does no'
+                       ' longer exist.'.format(message.msgid, message.domain)))
                 continue
             target_message.msgstr = msgstr
 

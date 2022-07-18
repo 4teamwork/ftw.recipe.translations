@@ -1,7 +1,8 @@
-from StringIO import StringIO
 from ftw.recipe.translations.google import Spreadsheet
 from ftw.recipe.translations.loader import load_translation_catalog
 from ftw.recipe.translations.utils import capture_streams
+from six.moves import filter
+from io import StringIO
 import sys
 
 
@@ -32,7 +33,7 @@ def setup_argparser(subparsers):
 
 
 def upload_command(args, spreadsheet_url):
-    print 'Spreadsheet:', spreadsheet_url
+    print('Spreadsheet:', spreadsheet_url)
     spreadsheet = Spreadsheet(
         noauth_local_webserver=args.noauth_local_webserver
     )
@@ -55,25 +56,25 @@ def upload(spreadsheet, sources_directory, languages=None,
         include_languages = None
 
     with capture_streams(stdout=output or StringIO()):
-        print 'Loading translations'
+        print('Loading translations')
         catalog = load_translation_catalog(sources_directory)
 
         data = catalog.get_message_dicts(include_languages)
         if filter_translated:
-            data = filter(translated_languages_filterer(languages or None),
-                          data)
+            data = list(filter(translated_languages_filterer(languages or None),
+                               data))
 
         data.sort(key=lambda item: (item.get('package'),
                                     item.get('domain'),
                                     item.get('msgid')))
 
         worksheet_title = spreadsheet.upload(data)
-        print 'Uploaded into worksheet "%s"' % worksheet_title
+        print('Uploaded into worksheet "%s"' % worksheet_title)
 
 
 def translated_languages_filterer(languages):
     def _filterer(item):
-        langs = languages or item['translations'].keys()
+        langs = languages or list(item['translations'].keys())
         for lang in langs:
             if not item['translations'].get(lang, None):
                 return True

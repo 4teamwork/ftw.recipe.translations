@@ -34,7 +34,4 @@ def get_translations_from_file(pofile):
     file_catalog = MessageCatalog(pofile)
     for message in file_catalog.values():
         default = message.getDefault()
-        if default:
-            default = default.decode('utf-8')
-
         yield message.msgid, message.msgstr, default

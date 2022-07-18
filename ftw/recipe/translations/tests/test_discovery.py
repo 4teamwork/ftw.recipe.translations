@@ -1,7 +1,7 @@
 from ftw.recipe.translations import discovery
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
-from unittest2 import TestCase
+from unittest import TestCase
 
 
 class TestDiscovery(TestCase):
@@ -18,7 +18,7 @@ class TestDiscovery(TestCase):
                 u'foo/bar/locales/foo.bar.pot': u'',
                 u'foo/bar/locales/foo.bar-manual.pot': u''})
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo.bar',
               u'package': u'foo.bar',
               u'locales': u'foo/bar/locales',
@@ -40,7 +40,7 @@ class TestDiscovery(TestCase):
                 u'foo.bar/foo/bar/locales/foo.bar.pot': u''})
 
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo.bar',
               u'package': u'foo.bar',
               u'locales': u'foo/bar/locales',
@@ -63,7 +63,7 @@ class TestDiscovery(TestCase):
                 u'foo/foo/locales/bar.pot': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'bar',
               u'package': u'foo',
               u'locales': u'foo/locales',
@@ -90,7 +90,7 @@ class TestDiscovery(TestCase):
                 u'foo/foo/locales/en/LC_MESSAGES/foo.po': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo',
               u'package': u'foo',
               u'locales': u'foo/locales',
@@ -110,7 +110,7 @@ class TestDiscovery(TestCase):
                 u'foo/bar/locales/foo-manual.pot': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo',
               u'package': u'foo',
               u'locales': u'bar/locales',
@@ -139,7 +139,7 @@ class TestDiscovery(TestCase):
                 u'foo/bar/locales/foo-content.pot': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo',
               u'package': u'foo',
               u'locales': u'bar/locales',
@@ -170,7 +170,7 @@ class TestDiscovery(TestCase):
                 u'foo/bar/subpackage/locales/foo-content.pot': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [{u'domain': u'foo',
               u'package': u'foo',
               u'locales': u'bar/locales',
@@ -205,7 +205,7 @@ class TestDiscovery(TestCase):
                 u'foo/foo/i18n/foo-de.po': u'',
                 })
 
-        self.assertItemsEqual(
+        self.assertCountEqual(
             [],
 
             discovery.discover(self.tempdir))

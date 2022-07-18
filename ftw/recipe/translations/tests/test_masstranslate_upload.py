@@ -2,7 +2,7 @@ from ftw.recipe.translations.masstranslate import upload
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
-from unittest2 import TestCase
+from unittest import TestCase
 
 
 class SpreadSheetMock(object):
@@ -31,7 +31,7 @@ class TestUploadCommand(TestCase):
         spreadsheet = SpreadSheetMock()
         upload.upload(spreadsheet, self.tempdir, filter_translated=False,
                       output=None)
-        self.assertEquals([{'package': u'foo',
+        self.assertEqual([{'package': u'foo',
                             'domain': u'bar',
                             'id': u'label_login',
                             'default': u'Login',
@@ -52,7 +52,7 @@ class TestUploadCommand(TestCase):
         upload.upload(spreadsheet, self.tempdir, filter_translated=False,
                       languages=['de'],
                       output=None)
-        self.assertEquals([{'package': u'foo',
+        self.assertEqual([{'package': u'foo',
                             'domain': u'bar',
                             'id': u'label_login',
                             'default': u'Login',
@@ -73,7 +73,7 @@ class TestUploadCommand(TestCase):
         spreadsheet = SpreadSheetMock()
         upload.upload(spreadsheet, self.tempdir, filter_translated=True,
                       output=None)
-        self.assertEquals([{'package': u'foo',
+        self.assertEqual([{'package': u'foo',
                             'domain': u'bar',
                             'id': u'label_logout',
                             'default': u'Logout',
@@ -94,7 +94,7 @@ class TestUploadCommand(TestCase):
         upload.upload(spreadsheet, self.tempdir, filter_translated=False,
                       languages=['de'], additional_languages=['fr'],
                       output=None)
-        self.assertEquals([{'package': u'foo',
+        self.assertEqual([{'package': u'foo',
                             'domain': u'bar',
                             'id': u'label_login',
                             'default': u'Login',
@@ -115,5 +115,5 @@ class TestUploadCommand(TestCase):
         upload.upload(spreadsheet, self.tempdir, filter_translated=True,
                       languages=['de'], additional_languages=['fr'],
                       output=None)
-        self.assertEquals([],
+        self.assertEqual([],
                           spreadsheet.uploaded)

@@ -1,5 +1,5 @@
 from ftw.recipe.translations.testing import MASSTRANSLATE_RECIPE_FIXTURE
-from unittest2 import TestCase
+from unittest import TestCase
 import os
 
 
@@ -22,8 +22,8 @@ class TestRecipe(TestCase):
     def test_installing_recipe(self):
         self.write('buildout.cfg', DEFAULT_BUILDOUT_CONFIG)
         output = self.system(self.buildout).strip()
-        self.assertRegexpMatches(output, r'^Installing translations')
-        self.assertRegexpMatches(output,
+        self.assertRegex(output, r'^Installing translations')
+        self.assertRegex(output,
                                  r'Generated script.*bin/masstranslate')
 
     def test_recipe_creates_translations_script(self):
@@ -47,7 +47,7 @@ class TestRecipe(TestCase):
         with open(path) as file_:
             script = file_.read()
 
-        self.assertRegexpMatches(script, 'sources_dir = ".*src"')
+        self.assertRegex(script, 'sources_dir = ".*src"')
 
     def test_spreadshet_configurable(self):
         url = 'https://docs.google.com/spreadsheet/ccc?key=adsf123adsf'

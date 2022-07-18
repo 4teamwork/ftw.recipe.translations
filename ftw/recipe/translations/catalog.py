@@ -25,7 +25,7 @@ class Catalog(object):
 
     @property
     def messages(self):
-        return self.catalog.values()
+        return list(self.catalog.values())
 
     def get_message_dicts(self, languages=None):
         return [msg.to_dict(languages) for msg in self.messages]
