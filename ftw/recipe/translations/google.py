@@ -1,4 +1,3 @@
-from __future__ import print_function
 from datetime import datetime
 from ftw.recipe.translations.progresslogger import ProgressLogger
 from gspread import Client
@@ -6,7 +5,6 @@ from oauth2client.client import flow_from_clientsecrets
 from oauth2client.keyring_storage import Storage
 from operator import attrgetter
 from six.moves import filter
-from six.moves import input
 from six.moves import map
 import httplib2
 import itertools

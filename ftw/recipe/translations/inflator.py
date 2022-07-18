@@ -49,7 +49,7 @@ def get_translated_values(data, translatable_key_expr):
             for result in get_translated_values(value, translatable_key_expr):
                 yield result
 
-    elif hasattr(data, '__iter__'):
+    elif isinstance(data, list) or isinstance(data, tuple) or isinstance(data, set):
         for value in data:
             for result in get_translated_values(value, translatable_key_expr):
                 yield result

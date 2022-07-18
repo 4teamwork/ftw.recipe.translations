@@ -30,7 +30,7 @@ def message_references(*pathparts):
 
 
 def headers(*pathparts):
-    lines = fshelpers.cat(pathparts).split('\n')
+    lines = fshelpers.cat(pathparts).decode('utf-8').split('\n')
     headers = list(filter(re.compile('".*:.*"').match, lines))
     headers = [line.rstrip('"').lstrip('"') for line in headers]
     headers = [list(map(str.strip, line.split(':', 1))) for line in headers]
@@ -47,10 +47,10 @@ def makepo(messages):
         else:
             default, msgstr = None, value
 
-        data.write('\n\n')
+        data.write(b'\n\n')
         if default:
-            data.write('#. Default: "%s"\n' % default)
-        data.write('msgid "%s"\n' % msgid)
-        data.write('msgstr "%s"\n' % msgstr)
+            data.write(b'#. Default: "%s"\n' % default.encode('utf-8'))
+        data.write(b'msgid "%s"\n' % msgid.encode('utf-8'))
+        data.write(b'msgstr "%s"\n' % msgstr.encode('utf-8'))
 
     return data.getvalue().strip()

@@ -1,4 +1,3 @@
-from __future__ import print_function
 from ftw.recipe.translations import discovery
 from ftw.recipe.translations.discovery import discover_package
 from ftw.recipe.translations.utils import chdir
@@ -9,7 +8,7 @@ from path import Path
 from six.moves import map
 import i18ndude.script
 import os.path
-
+import sys
 
 class Arguments(dict):
     def __init__(self, *args, **kwargs):
@@ -36,7 +35,8 @@ def rebuild_package_potfiles(package_root, package_dir, primary_domain):
 
 
 def rebuild_pot(package_root, package_dir, domain, potpath, manual, content):
-    print('Rebuilding', potpath)
+    print('Rebuilding ')
+    print(potpath)
     relative_path = Path(package_dir).relpath(package_root)
     if relative_path != '.':
         relative_path = os.path.join('.', relative_path)
@@ -97,7 +97,7 @@ def sync_pofile_group(base_dir, group, languages):
                            group['package'] or '',
                            group['pot'])
 
-    arguments = Arguments({'pot_fn': potpath,
+    arguments = Arguments({'pot_fn': potpath.encode('utf-8'),
                            'files': pofiles})
     try:
         i18ndude.script.sync(arguments)

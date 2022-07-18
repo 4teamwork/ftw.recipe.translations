@@ -1,5 +1,5 @@
 from ftw.recipe.translations.testing import RECIPE_FIXTURE
-from unittest2 import TestCase
+from unittest import TestCase
 import os.path
 import re
 
@@ -48,8 +48,8 @@ class TestRecipe(TestCase):
     def test_installing_recipe(self):
         self.write('buildout.cfg', PACKAGE_BUILDOUT_CONFIG)
         output = self.system(self.buildout).strip()
-        self.assertRegexpMatches(output, r'^Installing i18nbuild')
-        self.assertRegexpMatches(output,
+        self.assertRegex(output, r'^Installing i18nbuild')
+        self.assertRegex(output,
                                  r'Generated script.*bin/i18n-build')
 
     def test_generates_i18nbuild_script(self):
@@ -84,7 +84,7 @@ class TestRecipe(TestCase):
     def test_package_name_is_required(self):
         self.write('buildout.cfg', BASE_BUILDOUT_CONFIG)
         output = self.system(self.buildout).strip()
-        self.assertRegexpMatches(output, r'i18nbuild:package-name is required')
+        self.assertRegex(output, r'i18nbuild:package-name is required')
 
     def test_passes_i18ndomain_to_command(self):
         self.write('buildout.cfg', '\n'.join((

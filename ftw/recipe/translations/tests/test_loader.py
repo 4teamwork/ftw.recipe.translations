@@ -1,7 +1,7 @@
 from ftw.recipe.translations import loader
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
-from unittest2 import TestCase
+from unittest import TestCase
 
 
 class TestLoader(TestCase):
@@ -17,12 +17,12 @@ class TestLoader(TestCase):
                     'foo-de.po')})
 
         catalog = loader.load_translation_catalog(self.layer[u'tempdir'])
-        self.assertEquals(1, len(catalog.messages),
+        self.assertEqual(1, len(catalog.messages),
                           'Expected catalog to have one message')
 
         message, = catalog.messages
-        self.assertEquals('pyfoo', message.package)
-        self.assertEquals('foo', message.domain)
-        self.assertEquals('Login', message.msgid)
-        self.assertEquals(None, message.default)
-        self.assertEquals({'de': 'Anmelden'}, message.translations)
+        self.assertEqual('pyfoo', message.package)
+        self.assertEqual('foo', message.domain)
+        self.assertEqual('Login', message.msgid)
+        self.assertEqual(None, message.default)
+        self.assertEqual({'de': 'Anmelden'}, message.translations)

@@ -1,4 +1,3 @@
-from __future__ import print_function
 from ftw.recipe.translations.discovery import discover
 from i18ndude.catalog import MessageCatalog
 from i18ndude.catalog import POWriter

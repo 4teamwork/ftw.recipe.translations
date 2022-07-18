@@ -1,9 +1,8 @@
-from __future__ import print_function
 from ftw.recipe.translations.google import Spreadsheet
 from ftw.recipe.translations.loader import load_translation_catalog
 from ftw.recipe.translations.utils import capture_streams
 from six.moves import filter
-from io import BytesIO
+from io import StringIO
 import sys
 
 
@@ -56,7 +55,7 @@ def upload(spreadsheet, sources_directory, languages=None,
     if len(include_languages) == 0:
         include_languages = None
 
-    with capture_streams(stdout=output or BytesIO()):
+    with capture_streams(stdout=output or StringIO()):
         print('Loading translations')
         catalog = load_translation_catalog(sources_directory)
 

@@ -6,9 +6,7 @@ version = '2.0.0.dev0'
 
 extras = {
     'tests': [
-        'mocker',
         'plone.testing',
-        'unittest2',
     ],
 
     'masstranslate': [

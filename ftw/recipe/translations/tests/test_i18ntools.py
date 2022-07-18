@@ -1,10 +1,10 @@
-from io import BytesIO
+from io import StringIO
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.tests import fshelpers
 from ftw.recipe.translations.tests import pohelpers
 from ftw.recipe.translations.utils import capture_streams
-from unittest2 import TestCase
+from unittest import TestCase
 import os.path
 
 
@@ -20,9 +20,9 @@ class TestRebuildPotfiles(TestCase):
                 'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot')})
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
-        self.assertEquals({}, pohelpers.messages(*potfile))
+        self.assertEqual({}, pohelpers.messages(*potfile))
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
-        self.assertEquals({'Foo': ''}, pohelpers.messages(*potfile))
+        self.assertEqual({'Foo': ''}, pohelpers.messages(*potfile))
 
     def test_does_not_rebuild_secondary_domain_pot_files(self):
         fshelpers.create_structure(self.tempdir, {
@@ -30,9 +30,9 @@ class TestRebuildPotfiles(TestCase):
                 'foo/foo/locales/bar.pot': fshelpers.asset('empty.pot')})
 
         potfile = (self.tempdir, 'foo/foo/locales/bar.pot')
-        self.assertEquals({}, pohelpers.messages(*potfile))
+        self.assertEqual({}, pohelpers.messages(*potfile))
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
-        self.assertEquals({}, pohelpers.messages(*potfile))
+        self.assertEqual({}, pohelpers.messages(*potfile))
 
     def test_does_not_include_messages_outside_of_package_dir(self):
         fshelpers.create_structure(self.tempdir, {
@@ -45,7 +45,7 @@ class TestRebuildPotfiles(TestCase):
         rebuild_package_potfiles(self.tempdir, package_dir, 'foo')
         self.assertNotIn('Bar', pohelpers.messages(*potfile),
                          'Messages from sub-checkouts should not be included.')
-        self.assertEquals({'Foo': ''}, pohelpers.messages(*potfile),
+        self.assertEqual({'Foo': ''}, pohelpers.messages(*potfile),
                           'Expected translations in package to be discovered.')
 
     def test_merges_manual_pot_files(self):
@@ -58,7 +58,7 @@ class TestRebuildPotfiles(TestCase):
 
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         pofile = (self.tempdir, 'foo/foo/locales/foo.pot')
-        self.assertEquals({'Foo': '',
+        self.assertEqual({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
 
     def test_merges_content_pot_files(self):
@@ -71,7 +71,7 @@ class TestRebuildPotfiles(TestCase):
 
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         pofile = (self.tempdir, 'foo/foo/locales/foo.pot')
-        self.assertEquals({'Foo': '',
+        self.assertEqual({'Foo': '',
                            'Login': ''}, pohelpers.messages(*pofile))
 
     def test_path_comments_are_relative_in_potfile(self):
@@ -80,9 +80,9 @@ class TestRebuildPotfiles(TestCase):
                 'foo/foo/locales/foo.pot': fshelpers.asset('empty.pot')})
 
         potfile = (self.tempdir, 'foo/foo/locales/foo.pot')
-        self.assertEquals({}, pohelpers.messages(*potfile))
+        self.assertEqual({}, pohelpers.messages(*potfile))
         rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
-        self.assertEquals({'Foo': ['./foo/foo/__init__.py:1']},
+        self.assertEqual({'Foo': ['./foo/foo/__init__.py:1']},
                           pohelpers.message_references(*potfile))
 
     def test_i18ndude_SystemExit_is_handled(self):
@@ -94,7 +94,7 @@ class TestRebuildPotfiles(TestCase):
         fshelpers.create_structure(self.tempdir, {
                 'foo/locales/foo.pot': fshelpers.asset('empty.pot')})
         try:
-            with capture_streams(stderr=BytesIO()):
+            with capture_streams(stderr=StringIO()):
                 rebuild_package_potfiles(self.tempdir, self.tempdir, 'foo')
         except SystemExit:
             assert False, 'SystemExit leaked from i18ndude while rebuilding pot-files!'

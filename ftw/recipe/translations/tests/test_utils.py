@@ -1,9 +1,8 @@
-from __future__ import print_function
 from ftw.recipe.translations import utils
 from ftw.recipe.translations.testing import TEMP_DIRECTORY_FIXTURE
 from ftw.recipe.translations.utils import find_package_directory
-from io import BytesIO
-from unittest2 import TestCase
+from io import StringIO
+from unittest import TestCase
 import os
 import sys
 
@@ -11,25 +10,25 @@ import sys
 class TestCaptureStreams(TestCase):
 
     def test_captures_stdout(self):
-        stdout = BytesIO()
+        stdout = StringIO()
         with utils.capture_streams(stdout=stdout):
             print('Foo')
-        self.assertEquals('Foo\n', stdout.getvalue())
+        self.assertEqual('Foo\n', stdout.getvalue())
 
     def test_captures_stderr(self):
-        stderr = BytesIO()
+        stderr = StringIO()
         with utils.capture_streams(stderr=stderr):
             print('Error', file=sys.stderr)
-        self.assertEquals('Error\n', stderr.getvalue())
+        self.assertEqual('Error\n', stderr.getvalue())
 
     def test_captures_all_streams_parallel(self):
-        stdout = BytesIO()
-        stderr = BytesIO()
+        stdout = StringIO()
+        stderr = StringIO()
         with utils.capture_streams(stdout=stdout, stderr=stderr):
             print('Foo')
             print('Bar', file=sys.stderr)
-        self.assertEquals('Foo\n', stdout.getvalue())
-        self.assertEquals('Bar\n', stderr.getvalue())
+        self.assertEqual('Foo\n', stdout.getvalue())
+        self.assertEqual('Bar\n', stderr.getvalue())
 
 
 class TestFindPackageNamespace(TestCase):

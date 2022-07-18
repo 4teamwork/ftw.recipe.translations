@@ -1,7 +1,7 @@
 from ftw.recipe.translations.i18ntools import rebuild_package_potfiles
 from ftw.recipe.translations.i18ntools import sync_pofiles
 from ftw.recipe.translations.utils import capture_streams
-from io import BytesIO
+from io import StringIO
 import os.path
 import sys
 
@@ -26,7 +26,7 @@ def synchronize(sources_directory, languages=None, output=sys.stdout):
     source directory and syncs all .po-files with the .pot-files of all
     domains in each package.
     """
-    with capture_streams(stdout=output or BytesIO()):
+    with capture_streams(stdout=output or StringIO()):
         rebuild_primary_domain_group_potfiles(sources_directory)
         sync_pofiles(sources_directory, languages)
 
